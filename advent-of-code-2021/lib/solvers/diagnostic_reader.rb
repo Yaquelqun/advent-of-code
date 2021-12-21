@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "../helpers/input_parser"
+require_relative "../models/tally"
 
 module AdventOfCode2021
   module Solvers
@@ -13,15 +14,10 @@ module AdventOfCode2021
 
       def solve
         puts "gamma * epsilon rates = #{part1_solution}" # Solution: 2583164
-        puts "oxygen generator * CO2 scrubber rates = #{part2_solution}" # Solution: 2784375
+        # puts "oxygen generator * CO2 scrubber rates = #{part2_solution}" # Solution: 2784375
       end
 
       private
-
-      TOGGLE_BIT = {
-        '0' => '1',
-        '1' => '0'
-      }
 
       attr_reader :data, :number_length
 
@@ -29,10 +25,9 @@ module AdventOfCode2021
         gamma = [ ]
         epsilon = [ ]
         number_length.times do |index| # for each bit position in the binary number
-          most_frequent_number = find_most_frequent_number(data, index, 0)
-          puts "most frequent digit ##{index + 1} is #{most_frequent_number}"
-          gamma << most_frequent_number
-          epsilon << TOGGLE_BIT[most_frequent_number]
+          tally = Models::Tally.new(data.map { _1[index] })
+          gamma << tally.most_frequent_value
+          epsilon << tally.least_frequent_value
         end
 
         gamma.join.to_i(2) * epsilon.join.to_i(2)
@@ -42,7 +37,16 @@ module AdventOfCode2021
         current_range_start = 0
         current_range_end = data.length - 1
         current_digit = 0
+        ##find oxygen##
+        number_length.times do |current_digit|
+          numbers_frequency = tally_columns(data[current_range_start..current_range_end], index, 1)
+           if numbers_frequency.values.uniq.count == 1 #equality
+            
+           end
+          # if most_frequent_number
+        end
         while current_range_end > current_range_start
+          tally_columns(data[current_range_start..current_range_end], )
           current_range_average = (current_range_start + current_range_end + 1) / 2.0
           first_one_index = current_range_start
           first_one_index += 1 while data[first_one_index][current_digit] != "1" && first_one_index <= current_range_end
@@ -77,17 +81,6 @@ module AdventOfCode2021
         end
         co2_scrubber = data[[current_range_start, current_range_end].max].to_i(2)
         oxygen_generator * co2_scrubber
-      end
-
-
-      def find_most_frequent_number(list, digit_number, default)
-        tally = list.map { _1[digit_number] } # pick that bit for each number
-                    .tally # count the number of appeareances of 1 and 0
-        return default if tally.values.uniq.count == 1 # same number of 1 and 0
-
-        tally.sort_by(&:last) # sort by appearances
-             .map(&:first) # take the value of the bit
-             .last #last value is the most present value
       end
     end
   end
