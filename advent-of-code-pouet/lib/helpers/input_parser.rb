@@ -1,5 +1,7 @@
 # frozen_string_literal: true
+
 module Helpers
+  # parses the input from the puzzles
   class InputParser
     def initialize(endpoint:)
       @endpoint = endpoint

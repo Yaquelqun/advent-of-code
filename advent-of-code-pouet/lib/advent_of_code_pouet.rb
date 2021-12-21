@@ -7,7 +7,7 @@ module AdventOfCodePouet
   class Error < StandardError; end
 
   def self.run
-    return puts 'You checked out from the template, good luck for this year ^^' if self.name.include? 'Pouet'
+    return puts "You checked out from the template, good luck for this year ^^" if name.include? "Pouet"
 
     puts "Advent of Code Pouet"
     puts "what day do you want the solution to ?"
