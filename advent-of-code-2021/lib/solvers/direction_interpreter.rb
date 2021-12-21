@@ -1,53 +1,50 @@
 # frozen_string_literal: true
 
 require_relative "../helpers/input_parser"
+require_relative "../models/submarine_position"
 
 module AdventOfCode2021
   module Solvers
     # Computes height changes given a list of depths
     class DirectionInterpreter
+      INSTRUCTIONS = {
+        'forward' => :move_forward,
+        'down' => :increase_depth,
+        'up' => :decrease_depth
+      }.freeze
+
+      UPDATED_INSTRUCTIONS = {
+        'forward' => :move_forward,
+        'down' => :increase_aim,
+        'up' => :decrease_aim
+      }.freeze
+
       def initialize
         @data = Helpers::InputParser.new(endpoint: "day2_input").parse_data
+        @position = Models::SubmarinePosition.new
       end
 
       def solve
-        puts "depth * horizontal position = #{part1_solution}" # Solution: 2120749
-        puts "depth * horizontal position = #{part2_solution}" # Solution: 2138382217
+        puts "depth * horizontal position = #{read_instructions(instructions_set: INSTRUCTIONS)}" # Solution: 2120749
+        @position.reset
+        puts "depth * horizontal position = #{read_instructions(instructions_set: UPDATED_INSTRUCTIONS)}" # Solution: 2138382217
       end
 
       private
-      attr_reader :data
 
-      INSTRUCTIONS = {
-        'forward' => %I[horizontal +],
-        'down' => %I[depth +],
-        'up' => %I[depth -]
-      }.freeze
-      def part1_solution
-        current_position = { horizontal: 0, depth: 0 }
-        directions = data.map do |direction|
-          instruction = direction.split
-          INSTRUCTIONS[instruction.first] + [instruction.last.to_i]
-        end
-        directions.each { |direction, change, value| current_position[direction] = current_position[direction].send(change, value)}
-        current_position.values.reduce(&:*)
+      attr_reader :data, :position
+
+      def read_instructions(instructions_set:)
+        instructions = parse_data(instructions_set: instructions_set)
+        instructions.each { |action, value| position.send(action, value) }
+        position.multiply_coordinates
       end
 
-      def part2_solution
-        current_position = { horizontal: 0, depth: 0, aim: 0 }
-        data.each do |instruction|
-          instruction = instruction.split
-          case instruction.first
-          when 'down'
-            current_position[:aim] += instruction.last.to_i
-          when 'up'
-            current_position[:aim] -= instruction.last.to_i
-          when 'forward'
-            current_position[:horizontal] += instruction.last.to_i
-            current_position[:depth] += (instruction.last.to_i * current_position[:aim])
-          end
+      def parse_data(instructions_set:)
+        data.map do |data_line|
+          order, value = data_line.split
+          [instructions_set[order], value.to_i]
         end
-        current_position[:horizontal] * current_position[:depth]
       end
     end
   end
