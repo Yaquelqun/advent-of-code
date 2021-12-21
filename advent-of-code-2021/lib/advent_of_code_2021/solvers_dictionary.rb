@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 # require each solver 1 by 1 as the days go by
-# require_relative "../solvers/"
+require_relative "../solvers/sonar_sweep"
 
 module AdventOfCode2021
   # contains all solvers classes and define methods to access them
   class SolversDictionary
     SOLVER_CLASSES = {
-      1 => nil
+      1 => AdventOfCode2021::Solvers::SonarSweep
     }.freeze
 
     MAX_DAYS = SOLVER_CLASSES.count
