@@ -20,16 +20,16 @@ module AdventOfCode2021
       attr_reader :data
 
       def part1_solution
-        increase_number = 0
-        data[1..].each_with_index { |number, index| increase_number += 1 if data[index] < number }
-        increase_number
+        find_increases(data)
       end
 
       def part2_solution
-        summed_data = data[2..].map.with_index { |number, index| number + data[index] + data[index + 1] }
-        increase_number = 0
-        summed_data[1..].each_with_index { |number, index| increase_number += 1 if summed_data[index] < number }
-        increase_number
+        summed_data = data.each_cons(3).map(&:sum)
+        find_increases(summed_data)
+      end
+
+      def find_increases(depth_list)
+        depth_list.each_cons(2).count { |s| s.last > s.first}
       end
     end
   end
