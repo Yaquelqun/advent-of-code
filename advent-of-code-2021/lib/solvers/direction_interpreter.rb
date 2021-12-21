@@ -5,7 +5,7 @@ require_relative "../models/submarine_position"
 
 module AdventOfCode2021
   module Solvers
-    # Computes height changes given a list of depths
+    # predict submarine final position
     class DirectionInterpreter
       INSTRUCTIONS = {
         'forward' => :move_forward,
