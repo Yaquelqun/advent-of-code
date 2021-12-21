@@ -11,8 +11,8 @@ module AdventOfCode2021
       end
 
       def solve
-        puts "number of increases: #{part1_solution}"
-        puts "number of summed increases: #{part2_solution}"
+        puts "number of increases: #{part1_solution}" # Solution: 1292
+        puts "number of summed increases: #{part2_solution}" # Solution: 1262
       end
 
       private

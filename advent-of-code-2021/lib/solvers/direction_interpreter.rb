@@ -12,7 +12,7 @@ module AdventOfCode2021
 
       def solve
         puts "depth * horizontal position = #{part1_solution}" # Solution: 2120749
-        # puts "number of summed increases: #{part2_solution}"
+        puts "depth * horizontal position = #{part2_solution}" # Solution: 2138382217
       end
 
       private
@@ -34,9 +34,21 @@ module AdventOfCode2021
       end
 
       def part2_solution
-
+        current_position = { horizontal: 0, depth: 0, aim: 0 }
+        data.each do |instruction|
+          instruction = instruction.split
+          case instruction.first
+          when 'down'
+            current_position[:aim] += instruction.last.to_i
+          when 'up'
+            current_position[:aim] -= instruction.last.to_i
+          when 'forward'
+            current_position[:horizontal] += instruction.last.to_i
+            current_position[:depth] += (instruction.last.to_i * current_position[:aim])
+          end
+        end
+        current_position[:horizontal] * current_position[:depth]
       end
-
     end
   end
 end
