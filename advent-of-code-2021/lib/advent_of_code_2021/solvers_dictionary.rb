@@ -7,7 +7,7 @@ module AdventOfCode2021
   # contains all solvers classes and define methods to access them
   class SolversDictionary
     SOLVER_CLASSES = {
-      1 => nil,
+      1 => nil
     }.freeze
 
     MAX_DAYS = SOLVER_CLASSES.count

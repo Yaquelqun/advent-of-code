@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Helpers
   class InputParser
     def initialize(endpoint:)
