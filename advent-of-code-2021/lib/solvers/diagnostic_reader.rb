@@ -8,13 +8,13 @@ module AdventOfCode2021
     class DiagnosticReader
 
       def initialize
-        @data = Helpers::InputParser.new(endpoint: "day3_input").parse_data
+        @data = Helpers::InputParser.new(endpoint: "day3_input").parse_data.sort
         @number_length = @data.first.length
       end
 
       def solve
-        puts "gamma * epsilon rates = #{part1_solution}" # Solution: 
-        # puts "depth * horizontal position = #{read_instructions(instructions_set: UPDATED_INSTRUCTIONS)}" # Solution: 
+        puts "gamma * epsilon rates = #{part1_solution}" # Solution: 2583164
+        puts "oxygen generator * CO2 scrubber rates = #{part2_solution}" # Solution: 2239640 is too low
       end
 
       private
@@ -34,6 +34,70 @@ module AdventOfCode2021
         end
 
         gamma.join.to_i(2) * epsilon.join.to_i(2)
+      end
+
+      def part2_solution
+
+        ##Oxygen generator computation: Search in most popular##
+        current_range_start = 0
+        current_range_end = data.length - 1
+        current_digit = 0
+        while current_range_end > current_range_start
+          puts "considering digit ##{current_digit + 1}"
+          puts "currently searching between #{current_range_start} and #{current_range_end}"
+          puts "#{data[current_range_start..current_range_end]}"
+          current_range_average = (current_range_start + current_range_end + 1) / 2.0
+          puts "average is #{current_range_average}"
+          first_one_index = current_range_start
+          while data[first_one_index][current_digit] != '1' && first_one_index <= current_range_end
+            first_one_index += 1
+          end
+          puts "first 1 is at index #{first_one_index}"
+          
+          # check if that index is closer to the start or end of the range
+          if first_one_index > current_range_end
+          elsif first_one_index <= current_range_average # if closer to the start, then column contains mostly 1 (or in case of equality)
+            current_range_start = first_one_index # so change the range start to that number
+          else # if closer to end then column contains mostly 0
+            current_range_end = first_one_index - 1 # so change range end to that number - 1
+          end
+          
+          current_digit += 1 # increase current digit
+        end
+        oxygen_generator = data[[current_range_start, current_range_end].max].to_i(2)
+        puts "found oxygen generator rate: #{oxygen_generator}"
+
+        ##CO2 Scrubber computation: Search in least popular##
+        current_range_start = 0
+        current_range_end = data.length - 1
+        current_digit = 0
+        while current_range_end > current_range_start
+          puts "considering digit ##{current_digit + 1}"
+          puts "currently searching between #{current_range_start} and #{current_range_end}"
+          puts "#{data[current_range_start..current_range_end]}"
+          current_range_average = (current_range_start + current_range_end + 1) / 2.0
+          puts "average is #{current_range_average}"
+          first_one_index = current_range_start
+          while data[first_one_index][current_digit] != '1' && first_one_index <= current_range_end
+            first_one_index += 1
+          end
+          puts "first 1 is at index #{first_one_index}"
+
+          # check if that index is closer to the start or end of the range
+          if first_one_index > current_range_end
+          elsif first_one_index <= current_range_average # if closer to the start, then column contains mostly 1
+            puts 'column contains mostly 1'
+            current_range_end = first_one_index - 1 # so change the range end to that number
+          else # if closer to end then column contains mostly 0 (or in case of equality)
+            puts 'column contains mostly 0'
+            current_range_start = first_one_index # so change range end to that number - 1
+          end
+
+          current_digit += 1 # increase current digit
+        end
+        co2_scrubber = data[[current_range_start, current_range_end].max].to_i(2)
+        puts "found co2 scrubber rate: #{co2_scrubber}"
+        oxygen_generator * co2_scrubber
       end
     end
   end
