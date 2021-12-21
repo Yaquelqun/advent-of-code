@@ -25,9 +25,11 @@ module AdventOfCode2021
       end
 
       def solve
-        puts "depth * horizontal position = #{read_instructions(instructions_set: INSTRUCTIONS)}" # Solution: 2120749
+        puts "depth * horizontal position = #{read_instructions(instructions_set: INSTRUCTIONS)}"
+        #   Solution: 2120749
         @position.reset
-        puts "depth * horizontal position = #{read_instructions(instructions_set: UPDATED_INSTRUCTIONS)}" # Solution: 2138382217
+        puts "depth * horizontal position = #{read_instructions(instructions_set: UPDATED_INSTRUCTIONS)}"
+        #   Solution: 2138382217
       end
 
       private

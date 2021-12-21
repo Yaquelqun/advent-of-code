@@ -14,7 +14,7 @@ module AdventOfCode2021
 
       def solve
         puts "gamma * epsilon rates = #{part1_solution}" # Solution: 2583164
-        # puts "oxygen generator * CO2 scrubber rates = #{part2_solution}" # Solution: 2784375
+        puts "oxygen generator * CO2 scrubber rates = #{part2_solution}" # Solution: 2784375
       end
 
       private
@@ -22,10 +22,10 @@ module AdventOfCode2021
       attr_reader :data, :number_length
 
       def part1_solution
-        gamma = [ ]
-        epsilon = [ ]
-        number_length.times do |index| # for each bit position in the binary number
-          tally = Models::Tally.new(data.map { _1[index] })
+        gamma = []
+        epsilon = []
+        number_length.times do |current_digit|
+          tally = Models::Tally.new(data.map { _1[current_digit] })
           gamma << tally.most_frequent_value
           epsilon << tally.least_frequent_value
         end
@@ -34,53 +34,29 @@ module AdventOfCode2021
       end
 
       def part2_solution
-        current_range_start = 0
-        current_range_end = data.length - 1
-        current_digit = 0
-        ##find oxygen##
-        number_length.times do |current_digit|
-          numbers_frequency = tally_columns(data[current_range_start..current_range_end], index, 1)
-           if numbers_frequency.values.uniq.count == 1 #equality
-            
-           end
-          # if most_frequent_number
-        end
-        while current_range_end > current_range_start
-          tally_columns(data[current_range_start..current_range_end], )
-          current_range_average = (current_range_start + current_range_end + 1) / 2.0
-          first_one_index = current_range_start
-          first_one_index += 1 while data[first_one_index][current_digit] != "1" && first_one_index <= current_range_end
-
-          if first_one_index > current_range_end
-          elsif first_one_index <= current_range_average
-            current_range_start = first_one_index
-          else
-            current_range_end = first_one_index - 1
-          end
-
-          current_digit += 1
-        end
-        oxygen_generator = data[[current_range_start, current_range_end].max].to_i(2)
-
-        current_range_start = 0
-        current_range_end = data.length - 1
-        current_digit = 0
-        while current_range_end > current_range_start
-          current_range_average = (current_range_start + current_range_end + 1) / 2.0
-          first_one_index = current_range_start
-          first_one_index += 1 while data[first_one_index][current_digit] != "1" && first_one_index <= current_range_end
-
-          if first_one_index > current_range_end
-          elsif first_one_index <= current_range_average
-            current_range_end = first_one_index - 1
-          else
-            current_range_start = first_one_index
-          end
-
-          current_digit += 1
-        end
-        co2_scrubber = data[[current_range_start, current_range_end].max].to_i(2)
+        oxygen_generator = pinpoint_value(rule: :most_frequent_value).to_i(2)
+        co2_scrubber = pinpoint_value(rule: :least_frequent_value).to_i(2)
         oxygen_generator * co2_scrubber
+      end
+
+      def pinpoint_value(rule:)
+        current_list = data
+        number_length.times do |current_digit|
+          return current_list.first if current_list.count == 1
+
+          digits = current_list.map { _1[current_digit] }
+          tally = Models::Tally.new(digits)
+
+          current_list = apply_rule(current_list, tally, rule)
+        end
+      end
+
+      def apply_rule(list, tally, rule)
+        if tally.send(rule) == "1"
+          list.last(tally.tally["1"] || list.count - 1)
+        else
+          list.first(tally.tally["0"] || list.count - 1)
+        end
       end
     end
   end

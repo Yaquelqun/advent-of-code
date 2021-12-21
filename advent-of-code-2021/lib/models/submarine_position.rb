@@ -2,6 +2,7 @@
 
 module AdventOfCode2021
   module Models
+    # Tracks the position of the submarine
     class SubmarinePosition
       attr_accessor :horizontal, :depth, :aim
 
