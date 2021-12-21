@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Helpers
+  # parse input for each day
   class InputParser
     def initialize(endpoint:)
       @endpoint = endpoint
