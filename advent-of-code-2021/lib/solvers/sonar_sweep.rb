@@ -29,7 +29,7 @@ module AdventOfCode2021
       end
 
       def find_increases(depth_list)
-        depth_list.each_cons(2).count { |s| s.last > s.first}
+        depth_list.each_cons(2).count { |s| s.last > s.first }
       end
     end
   end

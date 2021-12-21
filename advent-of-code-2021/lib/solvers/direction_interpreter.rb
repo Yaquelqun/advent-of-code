@@ -8,15 +8,15 @@ module AdventOfCode2021
     # predict submarine final position
     class DirectionInterpreter
       INSTRUCTIONS = {
-        'forward' => :move_forward,
-        'down' => :increase_depth,
-        'up' => :decrease_depth
+        "forward" => :move_forward,
+        "down" => :increase_depth,
+        "up" => :decrease_depth
       }.freeze
 
       UPDATED_INSTRUCTIONS = {
-        'forward' => :move_forward,
-        'down' => :increase_aim,
-        'up' => :decrease_aim
+        "forward" => :move_forward,
+        "down" => :increase_aim,
+        "up" => :decrease_aim
       }.freeze
 
       def initialize
