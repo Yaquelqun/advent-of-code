@@ -2,7 +2,7 @@
 
 require_relative "solvers_dictionary"
 
-module AdventOfCodePouet
+module AdventOfCode2021
   # Strategy manager to handle the different solvers
   class DaySolver
     def initialize(day)
