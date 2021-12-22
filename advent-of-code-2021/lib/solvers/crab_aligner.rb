@@ -7,12 +7,12 @@ module AdventOfCode2021
     # aligns crab submarines
     class CrabAligner
       def initialize
-        @data = Helpers::InputParser.new(endpoint: "day6_input").parse_data
+        @data = Helpers::InputParser.new(endpoint: "day7_input").parse_data
       end
 
       def solve
-        puts "minimal fuel usage: #{part1_solution}" # Solution: 362740
-        # puts "lanternfish amount after 256 days: #{populations.sum}" # Solution: 1644874076764
+        puts "minimal fuel usage: #{part1_solution}" # Solution: 344605
+        # puts "realistic minimal fuel usage: #{part2_solution}" # Solution: 
       end
 
       private
@@ -20,7 +20,9 @@ module AdventOfCode2021
       attr_reader :data
 
       def part1_solution
-
+        crab_positions = parse_input
+        median = crab_positions.sort[crab_positions.length/2]
+        crab_positions.map { (median - _1).abs }.sum
       end
 
       def parse_input
