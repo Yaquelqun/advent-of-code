@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-require 'matrix'
+
+require "matrix"
 
 module AdventOfCode2021
   module Models
@@ -20,10 +21,11 @@ module AdventOfCode2021
       end
 
       def score
-        raise 'wtf' if @last_drawn_number == -1
+        raise "wtf" if @last_drawn_number == -1
+
         card.row_vectors.map(&:to_a)
-             .flatten
-             .reduce(0) { |acc, number| number == -1 ? acc : acc + number } * @last_drawn_number
+            .flatten
+            .reduce(0) { |acc, number| number == -1 ? acc : acc + number } * @last_drawn_number
       end
 
       def won?

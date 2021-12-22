@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-require_relative '../helpers/input_parser'
-require_relative '../models/bingo_card'
+require_relative "../helpers/input_parser"
+require_relative "../models/bingo_card"
 
 module AdventOfCode2021
   module Solvers
     # simulate bingo rounds
     class BingoCardChecker
       def initialize
-        @data = Helpers::InputParser.new(endpoint: 'day4_input').parse_data
+        @data = Helpers::InputParser.new(endpoint: "day4_input").parse_data
       end
 
       def solve
@@ -31,7 +31,7 @@ module AdventOfCode2021
       def score_list
         @score_list ||= begin
           input_list, bingo_inputs = parse_input_data
-          score_list = [ ]
+          score_list = []
           bingo_cards = bingo_inputs.map { Models::BingoCard.new(_1) }
           bingo_ractors = generate_ractors(bingo_cards)
           input_list.each do |drawn_number|
@@ -46,13 +46,13 @@ module AdventOfCode2021
       end
 
       def parse_input_data
-        input_list = data.first.split(',').map(&:to_i)
-        bingo_inputs = [ ]
-        current_bingo_input = [ ]
+        input_list = data.first.split(",").map(&:to_i)
+        bingo_inputs = []
+        current_bingo_input = []
         data[2..].each do |input_line|
           if input_line == ''
             bingo_inputs << current_bingo_input
-            current_bingo_input = [ ]
+            current_bingo_input = []
             next
           end
 
