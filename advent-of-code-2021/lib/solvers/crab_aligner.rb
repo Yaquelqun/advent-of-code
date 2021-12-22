@@ -12,7 +12,7 @@ module AdventOfCode2021
 
       def solve
         puts "minimal fuel usage: #{part1_solution}" # Solution: 344605
-        # puts "realistic minimal fuel usage: #{part2_solution}" # Solution: 
+        puts "realistic minimal fuel usage: #{part2_solution}" # Solution:
       end
 
       private
@@ -21,8 +21,16 @@ module AdventOfCode2021
 
       def part1_solution
         crab_positions = parse_input
-        median = crab_positions.sort[crab_positions.length/2]
+        median = crab_positions.sort[crab_positions.length / 2]
         crab_positions.map { (median - _1).abs }.sum
+      end
+
+      def part2_solution
+        crab_positions = parse_input
+        (crab_positions.min..crab_positions.max).reduce(Float::INFINITY) do |memo, position|
+          fuel_usage = crab_positions.map { (0..(position - _1).abs).sum }.sum
+          memo < fuel_usage ? memo : fuel_usage
+        end
       end
 
       def parse_input

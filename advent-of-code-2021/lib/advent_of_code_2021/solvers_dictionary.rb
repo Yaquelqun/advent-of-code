@@ -19,7 +19,7 @@ module AdventOfCode2021
       4 => AdventOfCode2021::Solvers::BingoCardChecker,
       5 => AdventOfCode2021::Solvers::VentsMapper,
       6 => AdventOfCode2021::Solvers::LanternFishWatcher,
-      7 => AdventOfCode2021::Solvers::CrabAligner,
+      7 => AdventOfCode2021::Solvers::CrabAligner
     }.freeze
 
     MAX_DAYS = SOLVER_CLASSES.count
