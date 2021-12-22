@@ -12,8 +12,8 @@ module AdventOfCode2021
       end
 
       def solve
-        puts "winning card score: #{part1_solution}" # Solution: 21607
-        # puts " : #{part2_solution}" # Solution: 
+        puts "first card score: #{part1_solution}" # Solution: 21607
+        puts "last card score: #{part2_solution}" # Solution: 
       end
 
       private
@@ -27,14 +27,24 @@ module AdventOfCode2021
         input_list.each do |drawn_number|                                                               # for each number in the drawn list
           bingo_ractors.map { _1.send({ action: :mark_number, number: drawn_number }) }                 # send the number to each ractor
           winning_ractor = bingo_ractors.map { _1.send({ action: :check_winning }) }.map{ [_1, _1.take] }.detect(&:last) # if any of them is winning
-          if winning_ractor
-            # byebug
-            return winning_ractor.first.send({ action: :score }).take 
-          end
+          return winning_ractor.first.send({ action: :score }).take if winning_ractor
         end
       end
 
       def part2_solution
+        input_list, bingo_inputs = parse_input_data                                                     # correctly parse the input
+        score_list = []
+        bingo_cards = bingo_inputs.map { Models::BingoCard.new(_1) }                                    # generate bingo card
+        bingo_ractors = generate_ractors(bingo_cards)                                                   # put them in ractors
+        input_list.each do |drawn_number|                                                               # for each number in the drawn list
+          bingo_ractors.map { _1.send({ action: :mark_number, number: drawn_number }) }                 # send the number to each ractor
+          winning_ractors = bingo_ractors.map { _1.send({ action: :check_winning }) }.map{ [_1, _1.take] }.select(&:last) # if any of them is winning
+          winning_ractors.each do |winning_ractor, _|
+            score_list << winning_ractor.send({ action: :score }).take 
+            bingo_ractors -= [winning_ractor]
+          end
+        end
+        return score_list.last
       end
 
       def parse_input_data
