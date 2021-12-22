@@ -31,17 +31,8 @@ module AdventOfCode2021
       def score_list
         @score_list ||= begin
           input_list, bingo_inputs = parse_input_data
-          score_list = []
-          bingo_cards = bingo_inputs.map { Models::BingoCard.new(_1) }
-          bingo_ractors = generate_ractors(bingo_cards)
-          input_list.each do |drawn_number|
-            play_round(bingo_ractors, drawn_number).each do |winning_ractor, _|
-              score_list << winning_ractor.send({ action: :score }).take
-              bingo_ractors -= [winning_ractor]
-            end
-          end
-
-          score_list
+          bingo_ractors = generate_ractors(bingo_inputs.map { Models::BingoCard.new(_1) })
+          play_all_rounds(input_list, bingo_ractors)
         end
       end
 
@@ -50,24 +41,21 @@ module AdventOfCode2021
         bingo_inputs = []
         current_bingo_input = []
         data[2..].each do |input_line|
-          if input_line == ''
-            bingo_inputs << current_bingo_input
-            current_bingo_input = []
-            next
-          end
+          current_bingo_input << input_line.split.map(&:to_i) and next unless input_line == ""
 
-          current_bingo_input << input_line.split.map(&:to_i)
+          bingo_inputs << current_bingo_input
+          current_bingo_input = []
         end
 
         [input_list, bingo_inputs]
       end
 
+      # rubocop:disable Metrics/MethodLength
       def generate_ractors(bingo_cards)
         bingo_cards.map do |bingo_card|
           Ractor.new(bingo_card) do |ractor_card|
             loop do
-              msg = Ractor.receive
-              case msg
+              case Ractor.receive
               in { action: :mark_number, number: }
                 ractor_card.check_number(number)
               in { action: :check_winning }
@@ -78,6 +66,19 @@ module AdventOfCode2021
             end
           end
         end
+      end
+      # rubocop:enable Metrics/MethodLength
+
+      def play_all_rounds(input_list, bingo_ractors)
+        score_list = []
+        input_list.each do |drawn_number|
+          play_round(bingo_ractors, drawn_number).each do |winning_ractor, _|
+            score_list << winning_ractor.send({ action: :score }).take
+            bingo_ractors -= [winning_ractor]
+          end
+        end
+
+        score_list
       end
 
       # plays round and return victors
