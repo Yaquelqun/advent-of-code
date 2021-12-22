@@ -1,10 +1,11 @@
 # frozen_string_literal: true
+require 'matrix'
 
 module AdventOfCode2021
   module Models
     # Represent a bingo card with the logic to tick a number and compute score
     class BingoCard
-      attr_accesssor :card
+      attr_accessor :card
 
       def initialize(numbers)
         @card = Matrix.rows(numbers)
@@ -19,17 +20,16 @@ module AdventOfCode2021
       end
 
       def score
-        raise "wtf" if @last_drawn_number == -1
-
-        @card.rows
+        raise 'wtf' if @last_drawn_number == -1
+        card.row_vectors.map(&:to_a)
              .flatten
              .reduce(0) { |acc, number| number == -1 ? acc : acc + number } * @last_drawn_number
       end
 
-      def winning?
-        winning_score = (@card.row_count * -1)
-        return true if @cards.row_vectors.to_a.any? { _1.sum == winning_score }
-        return true if @cards.column_vectors.to_a.any? { _1.sum == winning_score }
+      def won?
+        winning_score = (card.row_count * -1)
+        return true if card.row_vectors.any? { _1.to_a.sum == winning_score }
+        return true if card.column_vectors.any? { _1.to_a.sum == winning_score }
 
         false
       end

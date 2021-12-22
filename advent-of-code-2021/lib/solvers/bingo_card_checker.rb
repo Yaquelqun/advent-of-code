@@ -12,25 +12,64 @@ module AdventOfCode2021
       end
 
       def solve
-        puts "winning card score: #{part1_solution}" # Solution: 
+        puts "winning card score: #{part1_solution}" # Solution: 21607
         # puts " : #{part2_solution}" # Solution: 
       end
 
       private
 
-      attr_reader :data, :number_length
+      attr_reader :data
 
       def part1_solution
-        # correctly parse the input
-        # generate bingo card
-        # puts them in ractors
-        # for each number in the drawn list
-          # send the number to each ractor
-          # if any of them is winning
-            # return the scor
+        input_list, bingo_inputs = parse_input_data                                                     # correctly parse the input
+        bingo_cards = bingo_inputs.map { Models::BingoCard.new(_1) }                                    # generate bingo card
+        bingo_ractors = generate_ractors(bingo_cards)                                                   # put them in ractors
+        input_list.each do |drawn_number|                                                               # for each number in the drawn list
+          bingo_ractors.map { _1.send({ action: :mark_number, number: drawn_number }) }                 # send the number to each ractor
+          winning_ractor = bingo_ractors.map { _1.send({ action: :check_winning }) }.map{ [_1, _1.take] }.detect(&:last) # if any of them is winning
+          if winning_ractor
+            # byebug
+            return winning_ractor.first.send({ action: :score }).take 
+          end
+        end
       end
 
       def part2_solution
+      end
+
+      def parse_input_data
+        input_list = data.first.split(',').map(&:to_i)
+        bingo_inputs = [ ]
+        current_bingo_input = [ ]
+        data[2..].each do |input_line|
+          if input_line == ''
+            bingo_inputs << current_bingo_input
+            current_bingo_input = [ ]
+            next
+          end
+
+          current_bingo_input << input_line.split.map(&:to_i)
+        end
+
+        [input_list, bingo_inputs]
+      end
+
+      def generate_ractors(bingo_cards)
+        bingo_cards.map do |bingo_card|
+          Ractor.new(bingo_card) do |ractor_card|
+            loop do
+              msg = Ractor.receive
+              case msg
+              in { action: :mark_number, number: }
+                ractor_card.check_number(number)
+              in { action: :check_winning }
+                Ractor.yield(ractor_card.won?)
+              in { action: :score }
+                Ractor.yield(ractor_card.score)
+              end
+            end
+          end
+        end
       end
     end
   end
