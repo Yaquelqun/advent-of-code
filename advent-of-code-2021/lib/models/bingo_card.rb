@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module AdventOfCode2021
   module Models
     # Represent a bingo card with the logic to tick a number and compute score
@@ -17,11 +19,11 @@ module AdventOfCode2021
       end
 
       def score
-        raise 'wtf' if @last_drawn_number == -1
+        raise "wtf" if @last_drawn_number == -1
 
         @card.rows
-        .flatten
-        .reduce(0) { |acc, number| number == -1 ? acc : acc + number } * @last_drawn_number
+             .flatten
+             .reduce(0) { |acc, number| number == -1 ? acc : acc + number } * @last_drawn_number
       end
 
       def winning?
