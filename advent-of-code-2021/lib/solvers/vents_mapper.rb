@@ -11,7 +11,7 @@ module AdventOfCode2021
       end
 
       def solve
-        puts "strait vents intersection numbers: #{part1_solution}" # Solution:
+        puts "strait vents intersection numbers: #{part1_solution}" # Solution: 5169
         # puts "last card score: #{part2_solution}" # Solution: 19012
       end
 
