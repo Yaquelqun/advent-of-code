@@ -13,7 +13,7 @@ module AdventOfCode2021
 
       def solve
         puts "simple number count: #{part1_solution}" # Solution: 445
-        # puts "all vents intersection numbers: #{part2_solution}" # Solution:
+        puts "code sum: #{part2_solution}" # Solution:
       end
 
       private
@@ -23,10 +23,13 @@ module AdventOfCode2021
       def part1_solution
         seven_segments = parse_input.map { |combinations, output| Models::SevenSegment.new(combinations, output) }
         seven_segments.map(&:decode_output)
-        seven_segments.map(&:code).flatten.count { !_1.nil? }
+        seven_segments.map(&:code).flatten.count { [1, 4, 7, 8].include? _1 }
       end
 
       def part2_solution
+        seven_segments = parse_input.map { |combinations, output| Models::SevenSegment.new(combinations, output) }
+        seven_segments.map(&:decode_output)
+        seven_segments.map(&:code).map(&:join).map(&:to_i).sum
       end
 
       def parse_input
