@@ -13,7 +13,7 @@ module AdventOfCode2021
 
       def solve
         puts "simple number count: #{part1_solution}" # Solution: 445
-        puts "code sum: #{part2_solution}" # Solution:
+        puts "code sum: #{part2_solution}" # Solution: 1043101
       end
 
       private
@@ -21,19 +21,23 @@ module AdventOfCode2021
       attr_reader :data
 
       def part1_solution
-        seven_segments = parse_input.map { |combinations, output| Models::SevenSegment.new(combinations, output) }
-        seven_segments.map(&:decode_output)
-        seven_segments.map(&:code).flatten.count { [1, 4, 7, 8].include? _1 }
+        all_codes.flatten.count { [1, 4, 7, 8].include? _1 }
       end
 
       def part2_solution
-        seven_segments = parse_input.map { |combinations, output| Models::SevenSegment.new(combinations, output) }
-        seven_segments.map(&:decode_output)
-        seven_segments.map(&:code).map(&:join).map(&:to_i).sum
+        all_codes.map(&:join).map(&:to_i).sum
       end
 
       def parse_input
-        data.map { _1.split(' | ').map(&:split) }
+        data.map { _1.split(" | ").map(&:split) }
+      end
+
+      def all_codes
+        @all_codes ||= begin
+          seven_segments = parse_input.map { |combinations, output| Models::SevenSegment.new(combinations, output) }
+          seven_segments.map(&:decode_output)
+          seven_segments.map(&:code)
+        end
       end
     end
   end
