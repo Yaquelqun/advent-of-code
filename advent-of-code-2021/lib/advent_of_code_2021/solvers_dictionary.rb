@@ -9,6 +9,7 @@ require_relative "../solvers/vents_mapper"
 require_relative "../solvers/lanternfish_watcher"
 require_relative "../solvers/crab_aligner"
 require_relative "../solvers/seven_segment_decoder"
+require_relative "../solvers/height_parser"
 
 module AdventOfCode2021
   # contains all solvers classes and define methods to access them
@@ -21,7 +22,8 @@ module AdventOfCode2021
       5 => AdventOfCode2021::Solvers::VentsMapper,
       6 => AdventOfCode2021::Solvers::LanternFishWatcher,
       7 => AdventOfCode2021::Solvers::CrabAligner,
-      8 => AdventOfCode2021::Solvers::SevenSegmentDecoder
+      8 => AdventOfCode2021::Solvers::SevenSegmentDecoder,
+      9 => AdventOfCode2021::Solvers::HeightParser,
     }.freeze
 
     MAX_DAYS = SOLVER_CLASSES.count
