@@ -20,31 +20,42 @@ module AdventOfCode2021
       attr_reader :data
 
       def part1_solution
-        risk_level = 0
-        map[1..-2].each.with_index(1) do |height_row, row|
-          height_row[1..-2].each.with_index(1) do |height, column|
-            risk_level += (1 + height) if check_for_local_minimum(row, column, height)
-          end
+        low_points.reduce(0) do |risk_level, coordinates|
+          risk_level + map.dig(*coordinates) + 1
         end
-        risk_level
+      end
+
+      def part2_solution
+        basin_sizes = []
+        low_points.each do |basin|
+          basin_sizes << expand_basin([basin]).length
+        end
+        basin_sizes.sort.last(3).reduce(&:*)
+      end
+
+      def low_points
+        @low_points ||= begin
+          result = []
+          map[1..-2].each.with_index(1) do |height_row, row|
+            height_row[1..-2].each.with_index(1) do |height, column|
+              result << [row, column] if check_for_local_minimum(row, column, height)
+            end
+          end
+          result
+        end
       end
 
       def check_for_local_minimum(row, column, height)
         build_target(row, column).map { map.dig(*_1) }.all?{ height < _1}
       end
 
-      def part2_solution
-        low_points = []
-        map[1..-2].each.with_index(1) do |height_row, row|
-          height_row[1..-2].each.with_index(1) do |height, column|
-            low_points << [[row, column]] if check_for_local_minimum(row, column, height)
-          end
-        end
-        basin_sizes = []
-        low_points.each do |basin|
-          basin_sizes << expand_basin(basin).length
-        end
-        basin_sizes.sort.last(3).reduce(&:*)
+      def build_target(row, column)
+        [
+          [row, column - 1],
+          [row, column + 1],
+          [row - 1, column],
+          [row + 1, column]
+        ]
       end
 
       def expand_basin(basin)
@@ -62,26 +73,12 @@ module AdventOfCode2021
         expanded_basin
       end
 
-      def build_target(row, column)
-        [
-          [row, column - 1],
-          [row, column + 1],
-          [row - 1, column],
-          [row + 1, column]
-        ]
-      end
-
       def map
         @map ||= [Array.new(data.first.length + 2) { Float::INFINITY }] +
                  data.map do |data_line|
                    [Float::INFINITY] + data_line.split("").map(&:to_i) + [Float::INFINITY]
                  end +
                  [Array.new(data.first.length + 2) { Float::INFINITY }]
-      end
-
-      def display_map
-        map.each { puts _1.join }
-        nil
       end
     end
   end
