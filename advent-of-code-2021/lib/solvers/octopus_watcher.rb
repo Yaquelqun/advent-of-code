@@ -1,6 +1,7 @@
 # frozen_string_literal: true
+
 require_relative "../helpers/input_parser"
-require 'matrix'
+require "matrix"
 
 module AdventOfCode2021
   module Solvers
@@ -28,19 +29,22 @@ module AdventOfCode2021
         state = { synchronized: false, step: 0 }
         until state[:synchronized]
           state[:step] += 1
-          flashes_during_next_round
+          simulate_next_round
           state[:synchronized] = true if parsed_input.zero?
         end
         state[:step]
       end
 
       def flashes_during_next_round
+        simulate_next_round
+        parsed_input.count(&:zero?)
+      end
+
+      def simulate_next_round
         parsed_input.map!(&:next)
         parsed_input.each_with_index do |value, row, column|
           trigger_flash([row, column]) if value > 9
         end
-
-        parsed_input.count(&:zero?)
       end
 
       def trigger_flash(coordinates)
@@ -53,21 +57,18 @@ module AdventOfCode2021
         end
       end
 
+      # rubocop:disable Metrics/AbcSize
       def build_target(row, column)
         max_row_value = data.length - 1
         max_column_value = data.first.length - 1
 
         [
-          [row - 1, column - 1],
-          [row - 1, column],
-          [row - 1, column + 1],
-          [row, column - 1],
-          [row, column + 1],
-          [row + 1, column - 1],
-          [row + 1, column],
-          [row + 1, column + 1]
+          [row - 1, column - 1], [row - 1, column], [row - 1, column + 1],
+          [row, column - 1], [row, column + 1],
+          [row + 1, column - 1], [row + 1, column], [row + 1, column + 1]
         ].select { _1.between?(0, max_row_value) && _2.between?(0, max_column_value) }
       end
+      # rubocop:enable Metrics/AbcSize
 
       def parsed_input
         @parsed_input ||= Matrix[*data.map { _1.split("").map(&:to_i) }]
