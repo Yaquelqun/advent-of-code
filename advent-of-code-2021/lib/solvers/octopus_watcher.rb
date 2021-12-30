@@ -25,6 +25,13 @@ module AdventOfCode2021
       end
 
       def part2_solution
+        state = { synchronized: false, step: 0 }
+        until state[:synchronized]
+          state[:step] += 1
+          flashes_during_next_round
+          state[:synchronized] = true if parsed_input.zero?
+        end
+        state[:step]
       end
 
       def flashes_during_next_round
