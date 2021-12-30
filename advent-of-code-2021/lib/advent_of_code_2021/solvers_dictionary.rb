@@ -23,7 +23,7 @@ module AdventOfCode2021
       6 => AdventOfCode2021::Solvers::LanternFishWatcher,
       7 => AdventOfCode2021::Solvers::CrabAligner,
       8 => AdventOfCode2021::Solvers::SevenSegmentDecoder,
-      9 => AdventOfCode2021::Solvers::HeightParser,
+      9 => AdventOfCode2021::Solvers::HeightParser
     }.freeze
 
     MAX_DAYS = SOLVER_CLASSES.count

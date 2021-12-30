@@ -54,14 +54,10 @@ module AdventOfCode2021
           value = map.dig(row, column)
           upflow_points = build_target(row, column).map do |trow, tcolumn|
             map_value = map.dig(trow, tcolumn)
-            if ![9, Float::INFINITY].include?(map_value) && map_value > value
-              [trow, tcolumn]
-            else
-              nil
-            end
+            [trow, tcolumn] if ![9, Float::INFINITY].include?(map_value) && map_value > value
           end.compact
-          basin = basin | upflow_points
-          expanded_basin = expanded_basin | upflow_points
+          basin |= upflow_points
+          expanded_basin |= upflow_points
         end
         expanded_basin
       end
@@ -76,13 +72,11 @@ module AdventOfCode2021
       end
 
       def map
-        @map ||= begin
-          [Array.new(data.first.length + 2 ) { Float::INFINITY }] + 
-          data.map do |data_line|
-            [Float::INFINITY] + data_line.split('').map(&:to_i) + [Float::INFINITY]
-          end + 
-          [Array.new(data.first.length + 2) { Float::INFINITY }]
-        end
+        @map ||= [Array.new(data.first.length + 2) { Float::INFINITY }] +
+                 data.map do |data_line|
+                   [Float::INFINITY] + data_line.split("").map(&:to_i) + [Float::INFINITY]
+                 end +
+                 [Array.new(data.first.length + 2) { Float::INFINITY }]
       end
 
       def display_map
