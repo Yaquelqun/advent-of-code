@@ -8,6 +8,7 @@ module AdventOfCode2021
     class HeightParser
       def initialize
         @data = Helpers::InputParser.new(endpoint: "day9_input").parse_data
+        @row_length = @data.first.length
       end
 
       def solve
@@ -74,11 +75,9 @@ module AdventOfCode2021
       end
 
       def map
-        @map ||= [Array.new(data.first.length + 2) { Float::INFINITY }] +
-                 data.map do |data_line|
-                   [Float::INFINITY] + data_line.split("").map(&:to_i) + [Float::INFINITY]
-                 end +
-                 [Array.new(data.first.length + 2) { Float::INFINITY }]
+        @map ||= [Array.new(@row_length + 2) { Float::INFINITY }] +
+                 data.map { [Float::INFINITY] + _1.split("").map(&:to_i) + [Float::INFINITY] } +
+                 [Array.new(@row_length + 2) { Float::INFINITY }]
       end
     end
   end
