@@ -21,12 +21,16 @@ module AdventOfCode2021
 
       def part1_solution
         state = { incomplete_paths: [['start']], complete_paths: [] }
-        until incomplete_paths.empty?
-          # get the first path
-          # generate all possible paths from there
-          # next if no other path
+        until state[:incomplete_paths].empty?
+          current_path = state[:incomplete_paths].shift # get the first path
+          possible_paths = find_possible_paths(current_path) # generate all possible paths from there
+          next if possible_paths.empty? # next if no other path
+
           # add complete paths to the complete paths and incomplete paths to the incomplete paths
+          possible_paths.each { check_path_completion?(_1) ? state[:complete_paths] << _1 : state[:incomplete_paths] << _1 }
         end
+
+        state[:complete_paths].count
       end
 
       def part2_solution
@@ -53,7 +57,20 @@ module AdventOfCode2021
       end
 
       def compute_type(str)
-        str.downcase == str ? 'small' : 'big'
+        str.downcase == str ? 'small' : 'large'
+      end
+
+      def find_possible_paths(path)
+        possible_paths = []
+        nodes[path.last][:neighbors].each do |neighbor|
+          possible_paths << (path + [neighbor]) if nodes[neighbor][:type] == 'large'
+          possible_paths << (path + [neighbor]) if nodes[neighbor][:type] == 'small' && !path.include?(neighbor)
+        end
+        possible_paths
+      end
+
+      def check_path_completion?(path)
+        path.first == 'start' && path.last == 'end'
       end
     end
   end
