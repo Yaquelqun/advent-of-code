@@ -59,19 +59,18 @@ module AdventOfCode2021
         ]
       end
 
-      def expand_basin(basin)
-        expanded_basin = basin.dup
-        until basin.empty?
-          row, column = basin.shift
-          value = map.dig(row, column)
-          upflow_points = build_target(row, column).map do |trow, tcolumn|
-            map_value = map.dig(trow, tcolumn)
-            [trow, tcolumn] if ![9, Float::INFINITY].include?(map_value) && map_value > value
-          end.compact
-          basin |= upflow_points
-          expanded_basin |= upflow_points
+      def expand_basin(basin, expanded_basin = basin.dup)
+        return expanded_basin if basin.empty?
+
+        row, column = basin.shift
+        value = map.dig(row, column)
+        upflow_points = build_target(row, column).select do |trow, tcolumn|
+          map_value = map.dig(trow, tcolumn)
+          ![9, Float::INFINITY].include?(map_value) && map_value > value
         end
-        expanded_basin
+        basin |= upflow_points
+        expanded_basin |= upflow_points
+        expand_basin(basin, expanded_basin)
       end
 
       def map
