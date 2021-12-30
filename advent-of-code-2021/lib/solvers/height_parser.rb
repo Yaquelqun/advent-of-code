@@ -11,8 +11,8 @@ module AdventOfCode2021
       end
 
       def solve
-        puts "map risk level: #{part1_solution}" # Solution: < 1655
-        #puts "all vents intersection numbers: #{part2_solution}" # Solution:
+        puts "map risk level: #{part1_solution}" # Solution: 575
+        puts "largest basins product: #{part2_solution}" # Solution: 1019700
       end
 
       private
@@ -23,19 +23,47 @@ module AdventOfCode2021
         risk_level = 0
         map[1..-2].each.with_index(1) do |height_row, row|
           height_row[1..-2].each.with_index(1) do |height, column|
-            if check_for_local_minimum(row, column, height)
-              risk_level += (1 + height) 
-            end
+            risk_level += (1 + height) if check_for_local_minimum(row, column, height)
           end
         end
         risk_level
       end
 
-      def part2_solution
-      end
-
       def check_for_local_minimum(row, column, height)
         build_target(row, column).map { map.dig(*_1) }.all?{ height < _1}
+      end
+
+      def part2_solution
+        low_points = []
+        map[1..-2].each.with_index(1) do |height_row, row|
+          height_row[1..-2].each.with_index(1) do |height, column|
+            low_points << [[row, column]] if check_for_local_minimum(row, column, height)
+          end
+        end
+        basin_sizes = []
+        low_points.each do |basin|
+          basin_sizes << expand_basin(basin).length
+        end
+        basin_sizes.sort.last(3).reduce(&:*)
+      end
+
+      def expand_basin(basin)
+        expanded_basin = basin.dup
+        until basin.empty?
+          row, column = basin.shift
+          value = map.dig(row, column)
+          upflow_points = build_target(row, column).map do |trow, tcolumn|
+            map_value = map.dig(trow, tcolumn)
+            if ![9, Float::INFINITY].include?(map_value) && map_value > value
+              [trow, tcolumn]
+            else
+              nil
+            end
+          end.compact
+          basin = basin | upflow_points
+          expanded_basin = expanded_basin | upflow_points
+        end
+        expanded_basin
       end
 
       def build_target(row, column)
