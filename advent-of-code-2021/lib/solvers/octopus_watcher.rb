@@ -14,7 +14,7 @@ module AdventOfCode2021
       def solve
         puts "flashes amount: #{part1_solution}" # Solution: 1700
         @parsed_input = nil
-        puts "first synchronized flash: #{part2_solution}" # Solution:
+        puts "first synchronized flash: #{part2_solution}" # Solution: 273
       end
 
       private
