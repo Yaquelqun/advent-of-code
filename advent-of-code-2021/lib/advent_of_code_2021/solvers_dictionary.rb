@@ -31,7 +31,8 @@ module AdventOfCode2021
       10 => AdventOfCode2021::Solvers::SyntaxChecker,
       11 => AdventOfCode2021::Solvers::OctopusWatcher,
       12 => AdventOfCode2021::Solvers::PathsFinder,
-      13 => AdventOfCode2021::Solvers::PageFolder
+      13 => AdventOfCode2021::Solvers::PageFolder,
+      14 => AdventOfCode2021::Solvers::PolymerInserter
     }.freeze
 
     MAX_DAYS = SOLVER_CLASSES.count
