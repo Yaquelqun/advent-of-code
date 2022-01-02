@@ -1,7 +1,10 @@
-require 'matrix'
+# frozen_string_literal: true
+
+require "matrix"
 
 module AdventOfCode2021
   module Models
+    # Represents a page with dots on it
     class DottedPage
       attr_accessor :page
 
@@ -40,7 +43,7 @@ module AdventOfCode2021
       end
 
       def display_result
-        pp page.map { _1 ? '#' : '.' }.to_a.map(&:join)
+        pp page.map { _1 ? "#" : "." }.to_a.map(&:join)
         nil
       end
     end

@@ -36,14 +36,14 @@ module AdventOfCode2021
       def dot_coordinates
         @dot_coordinates ||= begin
           empty_line_index = data.index("")
-          data[..(empty_line_index - 1)].map { _1.split(',').map(&:to_i) }
+          data[..(empty_line_index - 1)].map { _1.split(",").map(&:to_i) }
         end
       end
 
       def folding_instructions
         @folding_instructions ||= begin
           empty_line_index = data.index("")
-          data[(empty_line_index + 1)..].map { |instruction| instruction[11..].split('=') }.map { [_1, _2.to_i]}
+          data[(empty_line_index + 1)..].map { |instruction| instruction[11..].split("=") }.map { [_1, _2.to_i]}
         end
       end
 
