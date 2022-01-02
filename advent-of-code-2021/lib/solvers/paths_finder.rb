@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "../helpers/input_parser"
+require_relative "../models/path"
 
 module AdventOfCode2021
   module Solvers
@@ -11,8 +12,8 @@ module AdventOfCode2021
       end
 
       def solve
-        puts "paths amount: #{part1_solution}" # Solution: 
-        puts ": #{part2_solution}" # Solution:
+        puts "paths amount: #{part1_solution}" # Solution: 4754
+        puts "path amount with one duplicate: #{part2_solution}" # Solution: 143562
       end
 
       private
@@ -20,20 +21,37 @@ module AdventOfCode2021
       attr_reader :data
 
       def part1_solution
-        state = { incomplete_paths: [['start']], complete_paths: [] }
+        state = { incomplete_paths: [Models::Path.new(['start'], duplicate: true)], complete_paths: [] }
         until state[:incomplete_paths].empty?
           current_path = state[:incomplete_paths].shift # get the first path
           possible_paths = find_possible_paths(current_path) # generate all possible paths from there
           next if possible_paths.empty? # next if no other path
 
           # add complete paths to the complete paths and incomplete paths to the incomplete paths
-          possible_paths.each { check_path_completion?(_1) ? state[:complete_paths] << _1 : state[:incomplete_paths] << _1 }
+          possible_paths.each { _1.complete? ? state[:complete_paths] << _1 : state[:incomplete_paths] << _1 }
         end
 
         state[:complete_paths].count
       end
 
       def part2_solution
+        @state = { incomplete_paths: [Models::Path.new(['start'], duplicate: false)], complete_paths: [] }
+        @target = 1000
+        until @state[:incomplete_paths].empty?
+          current_path = @state[:incomplete_paths].shift # get the first path
+          
+          possible_paths = find_possible_paths(current_path) # generate all possible paths from there
+          next if possible_paths.empty? # next if no other path
+
+          # add complete paths to the complete paths and incomplete paths to the incomplete paths
+          possible_paths.each { _1.complete? ? add_to_complete_paths(_1) : @state[:incomplete_paths] << _1 }
+        end
+
+        @state[:complete_paths].count
+      end
+
+      def add_to_complete_paths(path)
+        @state[:complete_paths] << path
       end
 
       def parsed_input
@@ -52,6 +70,8 @@ module AdventOfCode2021
       end
 
       def modify_node(node_list, current_node, new_neighbor)
+        return if new_neighbor == 'start'
+
         node_list[current_node][:neighbors] << new_neighbor
         node_list[current_node][:type] ||= compute_type(current_node)
       end
@@ -62,15 +82,10 @@ module AdventOfCode2021
 
       def find_possible_paths(path)
         possible_paths = []
-        nodes[path.last][:neighbors].each do |neighbor|
-          possible_paths << (path + [neighbor]) if nodes[neighbor][:type] == 'large'
-          possible_paths << (path + [neighbor]) if nodes[neighbor][:type] == 'small' && !path.include?(neighbor)
+        nodes[path.current_cavern][:neighbors].each do |neighbor|
+          possible_paths += path.new_path_to(neighbor, nodes)
         end
         possible_paths
-      end
-
-      def check_path_completion?(path)
-        path.first == 'start' && path.last == 'end'
       end
     end
   end
