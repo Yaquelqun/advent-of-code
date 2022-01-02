@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module AdventOfCode2021
   module Models
     # Represents a path through the cavern system
@@ -18,7 +20,7 @@ module AdventOfCode2021
         case check_accessibility(neighbor, nodes)
         when false
           return []
-        when 'toggle_duplicate'
+        when "toggle_duplicate"
           duplication = true
         end
 
@@ -26,14 +28,18 @@ module AdventOfCode2021
       end
 
       def complete?
-        path.first == 'start' && path.last == 'end'
+        path.first == "start" && path.last == "end"
       end
 
+      # rubocop:disable Metrics/CyclomaticComplexity
       def check_accessibility(neighbor, nodes)
-        return false if neighbor == 'start'
-        return false if nodes[neighbor][:type] == 'small' && path.include?(neighbor) && duplicate
-        return 'toggle_duplicate' if nodes[neighbor][:type] == 'small' && path.include?(neighbor) && !duplicate
+        small_node = nodes[neighbor][:type] == small
+        been_there = path.include?(neighbor)
+
+        return false if neighbor == "start" || small_node && been_there && duplicate
+        return "toggle_duplicate" if small_node && been_there && !duplicate
       end
+      # rubocop:enable Metrics/CyclomaticComplexity
     end
   end
 end

@@ -12,10 +12,10 @@ module AdventOfCode2021
       end
 
       def solve
-        state = { incomplete_paths: [Models::Path.new(['start'], duplicate: true)], complete_paths_count: 0 }
+        state = { incomplete_paths: [Models::Path.new(["start"], duplicate: true)], complete_paths_count: 0 }
         puts "paths amount: #{expand_paths(state)}" # Solution: 4754
 
-        state = { incomplete_paths: [Models::Path.new(['start'], duplicate: false)], complete_paths_count: 0 }
+        state = { incomplete_paths: [Models::Path.new(["start"], duplicate: false)], complete_paths_count: 0 }
         puts "path amount with one duplicate: #{expand_paths(state)}" # Solution: 143562
       end
 
@@ -49,14 +49,14 @@ module AdventOfCode2021
       end
 
       def modify_node(node_list, current_node, new_neighbor)
-        return if new_neighbor == 'start'
+        return if new_neighbor == "start"
 
         node_list[current_node][:neighbors] << new_neighbor
         node_list[current_node][:type] ||= compute_type(current_node)
       end
 
       def compute_type(str)
-        str.downcase == str ? 'small' : 'large'
+        str.downcase == str ? "small" : "large"
       end
 
       def find_possible_paths(path)
