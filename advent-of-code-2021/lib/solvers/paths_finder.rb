@@ -12,46 +12,25 @@ module AdventOfCode2021
       end
 
       def solve
-        puts "paths amount: #{part1_solution}" # Solution: 4754
-        puts "path amount with one duplicate: #{part2_solution}" # Solution: 143562
+        state = { incomplete_paths: [Models::Path.new(['start'], duplicate: true)], complete_paths_count: 0 }
+        puts "paths amount: #{expand_paths(state)}" # Solution: 4754
+
+        state = { incomplete_paths: [Models::Path.new(['start'], duplicate: false)], complete_paths_count: 0 }
+        puts "path amount with one duplicate: #{expand_paths(state)}" # Solution: 143562
       end
 
       private
 
       attr_reader :data
 
-      def part1_solution
-        state = { incomplete_paths: [Models::Path.new(['start'], duplicate: true)], complete_paths: [] }
+      def expand_paths(state)
         until state[:incomplete_paths].empty?
-          current_path = state[:incomplete_paths].shift # get the first path
-          possible_paths = find_possible_paths(current_path) # generate all possible paths from there
-          next if possible_paths.empty? # next if no other path
-
-          # add complete paths to the complete paths and incomplete paths to the incomplete paths
-          possible_paths.each { _1.complete? ? state[:complete_paths] << _1 : state[:incomplete_paths] << _1 }
+          current_path = state[:incomplete_paths].shift
+          possible_paths = find_possible_paths(current_path)
+          possible_paths.each { _1.complete? ? state[:complete_paths_count] += 1 : state[:incomplete_paths] << _1 }
         end
 
-        state[:complete_paths].count
-      end
-
-      def part2_solution
-        @state = { incomplete_paths: [Models::Path.new(['start'], duplicate: false)], complete_paths: [] }
-        @target = 1000
-        until @state[:incomplete_paths].empty?
-          current_path = @state[:incomplete_paths].shift # get the first path
-          
-          possible_paths = find_possible_paths(current_path) # generate all possible paths from there
-          next if possible_paths.empty? # next if no other path
-
-          # add complete paths to the complete paths and incomplete paths to the incomplete paths
-          possible_paths.each { _1.complete? ? add_to_complete_paths(_1) : @state[:incomplete_paths] << _1 }
-        end
-
-        @state[:complete_paths].count
-      end
-
-      def add_to_complete_paths(path)
-        @state[:complete_paths] << path
+        state[:complete_paths_count]
       end
 
       def parsed_input
