@@ -12,8 +12,7 @@ module AdventOfCode2021
 
       def solve
         puts "most - least common element after 10 steps: #{part1_solution}" # Solution: 2435
-        @submarine_polymer = nil
-        puts ":#{part2_solution}" # Solution:
+        # puts "most - least common element after 40 steps:#{part2_solution}" # Solution:
       end
 
       private
@@ -21,17 +20,18 @@ module AdventOfCode2021
       attr_reader :data
 
       def part1_solution
+        submarine_polymer = initial_submarine_polymer
         10.times do |step|
           puts '###########'
           puts step
-          puts "new_added_patterns: #{@added_patterns}"
-          puts "rule_book size: #{rules.keys.size}"
-          puts "largest_key: #{rules.keys.map(&:size).max}"
-          puts "polymer_size size: #{submarine_polymer.size}"
-          @added_patterns = 0
+          # puts "new_added_patterns: #{@added_patterns}"
+          # puts "rule_book size: #{rules.keys.size}"
+          # puts "largest_key: #{rules.keys.map(&:size).max}"
+          # puts "polymer_size size: #{submarine_polymer.size}"
+          # @added_patterns = 0
           expand_polymer
         end
-        
+
         element_occurrences = submarine_polymer.tally.values.sort
         element_occurrences.last - element_occurrences.first
       end
@@ -75,38 +75,22 @@ module AdventOfCode2021
         end
         puts "expansion completed" unless expanding_rules
       end
-
-      def find_largest_known_pattern(polymer, pointer)
-        end_pointer = pointer + 1
-        result = pointer
-        largest_rule = rules.keys.map(&:size).max
-
-        until polymer[end_pointer].nil? || (end_pointer - pointer) >= largest_rule
-          pattern = polymer[pointer..end_pointer].join
-          result = end_pointer if rules[pattern]
-          end_pointer += 1
-        end
-        result
-      end
-
-      def submarine_polymer
-        @submarine_polymer ||= data.first.split('')
+      
+      def initial_submarine_polymer
+        polymer = Hash.new(0)
+        parsed_data = data.first.split('')
+        parsed_data.map.with_index { |c, index| [c, parsed_data[index + 1]] }[..-2]
+        .each { polymer[_1] += 1 }
+        polymer # count of the pairs of adjacent characters: "KBP..." becomes { [K, B] => 1, [B, P] => 1 ...}
       end
 
       def rules
         @rules ||= begin
+          rules = {}
           h = data[2..].map { _1.split(' -> ') }.to_h
-          h.each { |k, v| h[k] = [k[0], v, k[1]] }
+          h.each { |k, v| rules[k.split('')] = [[k[0], v], [v, k[1]]] } # OP -> H becomes [O,P] => [[O, H], [H, P]]
+          rules
         end
-      end
-
-      def add_to_rules(new_element)
-        return if rules.key?(new_element.join) || new_element.length >= 900
-
-        @added_patterns += 1
-        expanded_value = new_element.dup
-        expand_polymer(expanded_value, true)
-        rules[new_element.join] = expanded_value
       end
     end
   end
