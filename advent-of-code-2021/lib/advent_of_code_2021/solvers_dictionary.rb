@@ -14,6 +14,7 @@ require_relative "../solvers/syntax_checker"
 require_relative "../solvers/octopus_watcher"
 require_relative "../solvers/paths_finder"
 require_relative "../solvers/page_folder"
+require_relative "../solvers/polymer_inserter"
 
 module AdventOfCode2021
   # contains all solvers classes and define methods to access them
