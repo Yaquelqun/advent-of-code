@@ -11,9 +11,10 @@ module AdventOfCode2021
       end
 
       def solve
+        10.times { expand_rules }
         puts "most - least common element after 10 steps: #{part1_solution}" # Solution: 2435
-        @polymer = nil
-        # puts ":#{part2_solution}" # Solution:
+        @submarine_polymer = nil
+        puts ":#{part2_solution}" # Solution:
       end
 
       private
@@ -26,11 +27,11 @@ module AdventOfCode2021
           puts step
           expand_polymer
         end
-
-        element_occurrences = polymer.tally.values.sort
+        
+        element_occurrences = submarine_polymer.tally.values.sort
         element_occurrences.last - element_occurrences.first
       end
-
+      
       def part2_solution
         40.times do |step|
           puts '###########'
@@ -38,27 +39,39 @@ module AdventOfCode2021
           expand_polymer
         end
 
-        element_occurrences = polymer.tally.values.sort
+        element_occurrences = submarine_polymer.tally.values.sort
         element_occurrences.last - element_occurrences.first
       end
 
-      def expand_polymer
+      def expand_polymer(polymer = submarine_polymer)
         pointer = 0
         until polymer[pointer + 1].nil?
-          couple = polymer[pointer..(pointer + 1)].join
-          new_element = rules[couple]
-          pointer += 1 && next if new_element.nil?
+          end_pointer = find_largest_known_pattern(polymer, pointer)
+          pointer += 1 && next if end_pointer == pointer
 
-          polymer.delete_at(pointer)
-          polymer.delete_at(pointer)
+          couple = polymer[pointer..end_pointer].join
+          new_element = rules[couple]
+
+          couple.length.times { polymer.delete_at(pointer) }
           new_element.reverse.each { polymer.insert(pointer, _1) }
 
-          pointer += 2
+          pointer += new_element.length - 1
         end
       end
 
-      def polymer
-        @polymer ||= data.first.split('')
+      def find_largest_known_pattern(polymer, pointer)
+        end_pointer = pointer
+        until polymer[end_pointer + 1].nil?
+          pattern = polymer[(pointer..(end_pointer + 1))].join
+          return end_pointer unless rules.key?(pattern)
+
+          end_pointer += 1
+        end
+        end_pointer
+      end
+
+      def submarine_polymer
+        @submarine_polymer ||= data.first.split('')
       end
 
       def rules
@@ -66,6 +79,19 @@ module AdventOfCode2021
           h = data[2..].map { _1.split(' -> ') }.to_h
           h.each { |k, v| h[k] = [k[0], v, k[1]] }
         end
+      end
+
+      def expand_rules
+        new_rules = {}
+        rules.each do |_, value|
+          next unless rules[value].nil?
+          
+          expanded_value = value.dup
+          expand_polymer(expanded_value)
+          new_rules[value.join] = expanded_value
+        end
+
+        rules.merge! new_rules
       end
     end
   end
