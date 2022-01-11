@@ -7,4 +7,4 @@ gem "colorize"
 gem "rake", "~> 13.0"
 gem "rspec", "~> 3.0"
 gem "rubocop", "~> 1.7"
-gem 'ruby-progressbar'
+gem "ruby-progressbar"

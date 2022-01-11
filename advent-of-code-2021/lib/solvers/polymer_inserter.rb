@@ -28,9 +28,7 @@ module AdventOfCode2021
       end
 
       def expand_polymer(polymer, steps)
-        steps.times do |step|
-          puts '###########'
-          puts step
+        steps.times do
           expanded_polymer = Hash.new(0)
           polymer.each do |pair, amount|
             next unless rules.key?(pair)
@@ -53,17 +51,17 @@ module AdventOfCode2021
 
       def initial_submarine_polymer
         polymer = Hash.new(0)
-        parsed_data = data.first.split('')
+        parsed_data = data.first.split("")
         parsed_data.map.with_index { |c, index| [c, parsed_data[index + 1]] }[..-2]
-        .each { polymer[_1] += 1 }
+                   .each { polymer[_1] += 1 }
         polymer # count of the pairs of adjacent characters: "KBP..." becomes { [K, B] => 1, [B, P] => 1 ...}
       end
 
       def rules
         @rules ||= begin
           rules = {}
-          h = data[2..].map { _1.split(' -> ') }.to_h
-          h.each { |k, v| rules[k.split('')] = [[k[0], v], [v, k[1]]] } # OP -> H becomes [O,P] => [[O, H], [H, P]]
+          h = data[2..].map { _1.split(" -> ") }.to_h
+          h.each { |k, v| rules[k.split("")] = [[k[0], v], [v, k[1]]] } # OP -> H becomes [O,P] => [[O, H], [H, P]]
           rules
         end
       end
