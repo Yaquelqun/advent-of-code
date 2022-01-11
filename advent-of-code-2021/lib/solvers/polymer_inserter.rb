@@ -11,71 +11,46 @@ module AdventOfCode2021
       end
 
       def solve
-        puts "most - least common element after 10 steps: #{part1_solution}" # Solution: 2435
-        # puts "most - least common element after 40 steps:#{part2_solution}" # Solution:
+        puts "most - least common element after 10 steps: #{run_steps(10)}" # Solution: 2435
+        puts "most - least common element after 40 steps: #{run_steps(40)}" # Solution: 2587447599164
       end
 
       private
 
       attr_reader :data
 
-      def part1_solution
+      def run_steps(steps)
         submarine_polymer = initial_submarine_polymer
-        10.times do |step|
-          puts '###########'
-          puts step
-          # puts "new_added_patterns: #{@added_patterns}"
-          # puts "rule_book size: #{rules.keys.size}"
-          # puts "largest_key: #{rules.keys.map(&:size).max}"
-          # puts "polymer_size size: #{submarine_polymer.size}"
-          # @added_patterns = 0
-          expand_polymer
-        end
+        submarine_polymer = expand_polymer(submarine_polymer, steps)
+        tally = sum_letters(submarine_polymer)
 
-        element_occurrences = submarine_polymer.tally.values.sort
-        element_occurrences.last - element_occurrences.first
-      end
-      
-      def part2_solution
-        40.times do |step|
-          puts '###########'
-          puts step
-          puts "new_added_patterns: #{@added_patterns}"
-          puts "rule_book size: #{rules.keys.size}"
-          puts "largest_key: #{rules.keys.map(&:size).max}"
-          puts "polymer_size size: #{submarine_polymer.size}"
-
-          @added_patterns = 0
-          expand_polymer
-        end
-
-        element_occurrences = submarine_polymer.tally.values.sort
-        element_occurrences.last - element_occurrences.first
+        tally.last - tally.first - 1
       end
 
-      def expand_polymer(polymer = submarine_polymer, expanding_rules = false)
-        pointer = 0
-        until polymer[pointer + 1].nil?
-          print "pointer at #{pointer}/#{polymer.length}" + "\r" unless expanding_rules
-          end_pointer = find_largest_known_pattern(polymer, pointer)
-          if end_pointer == pointer
-            pointer += 1
-            next
+      def expand_polymer(polymer, steps)
+        steps.times do |step|
+          puts '###########'
+          puts step
+          expanded_polymer = Hash.new(0)
+          polymer.each do |pair, amount|
+            next unless rules.key?(pair)
+
+            rules[pair].each { expanded_polymer[_1] += amount }
           end
-          
-          couple = polymer[pointer..end_pointer].join
-          new_element = rules[couple]
-          # puts "found pattern of size #{couple.length}" if !expanding_rules && couple.length > 1000
-
-          couple.length.times { polymer.delete_at(pointer) }
-          new_element.reverse.each { polymer.insert(pointer, _1) }
-          add_to_rules(new_element) unless expanding_rules
-
-          pointer += new_element.length - 1
+          polymer = expanded_polymer
         end
-        puts "expansion completed" unless expanding_rules
+
+        polymer
       end
-      
+
+      def sum_letters(polymer)
+        element_occurrences = Hash.new(0)
+        polymer.each do |couple, amount|
+          element_occurrences[couple[0]] += amount
+        end
+        element_occurrences.values.sort
+      end
+
       def initial_submarine_polymer
         polymer = Hash.new(0)
         parsed_data = data.first.split('')
