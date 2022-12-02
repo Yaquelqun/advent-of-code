@@ -8,34 +8,30 @@ module AdventOfCode2022
     class CaloriesCounter
       def initialize
         @data = Helpers::InputParser.new(endpoint: "day1_input").parse_data.map(&:to_i)
-        @calory_max = 0
       end
 
       def solve
-        puts "highest calory count: #{part1_solution}" # Solution: 68787
-        puts " #{}" # Solution: 
+        puts "highest calory count: #{sorted_calory_count.last}" # Solution: 68787
+        puts " three highest calory count: #{sorted_calory_count[-3..].sum}" # Solution: 198041
       end
 
       private
 
       attr_reader :data
 
-      def part1_solution
-        current_max = 0
-        data.each do |count|
-          if count != 0
-            current_max += count
-            next
-          end
-
-          compare_calory_max(current_max)
-          current_max = 0
-        end
-        @calory_max
+      def sorted_calory_count
+        @sorted_calory_count ||= isolated_elf_foods.map(&:sum).sort
       end
 
-      def compare_calory_max(potential_max)
-        @calory_max = potential_max if potential_max > @calory_max
+      def isolated_elf_foods
+        result = []
+        data.reduce([]) do |current_elf_foods, count|
+          current_elf_foods << count and next(current_elf_foods) if count != 0
+
+          result << current_elf_foods
+          next([])
+        end
+        result
       end
     end
   end
