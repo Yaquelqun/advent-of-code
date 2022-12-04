@@ -10,7 +10,7 @@ module AdventOfCode2022
       end
 
       def solve
-        puts "number of covered space: #{solve_part1}" # Solution: 
+        puts "number of covered space: #{solve_part1}" # Solution: 453
       end
 
       private
