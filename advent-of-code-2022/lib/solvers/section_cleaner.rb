@@ -11,7 +11,7 @@ module AdventOfCode2022
 
       def solve
         puts "number of totally covered space: #{tally_covers(cover_option: "total")}" # Solution: 453
-        # puts "number of partially covered space: #{solve_part1}" # Solution: 
+        puts "number of partially covered space: #{tally_covers(cover_option: "partial")}" # Solution: 
       end
 
       private
@@ -34,6 +34,11 @@ module AdventOfCode2022
 
       def total_cover_between?(range1, range2)
         range1.cover?(range2) || range2.cover?(range1)
+      end
+
+      def partial_cover_between?(range1, range2)
+        lower_starting_range, higher_starting_range = [range1, range2].sort_by(&:first)
+        higher_starting_range.first <= lower_starting_range.last
       end
     end
   end
