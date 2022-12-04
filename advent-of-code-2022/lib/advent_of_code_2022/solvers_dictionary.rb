@@ -4,6 +4,7 @@
 require_relative "../solvers/calories_counter"
 require_relative "../solvers/rock_paper_scissors_player"
 require_relative "../solvers/rucksack_parser"
+require_relative "../solvers/section_cleaner"
 
 module AdventOfCode2022
   # contains all solvers classes and define methods to access them
@@ -11,7 +12,8 @@ module AdventOfCode2022
     SOLVER_CLASSES = {
       1 => AdventOfCode2022::Solvers::CaloriesCounter,
       2 => AdventOfCode2022::Solvers::RockPaperScissorsSolver,
-      3 => AdventOfCode2022::Solvers::RucksackParser
+      3 => AdventOfCode2022::Solvers::RucksackParser,
+      4 => AdventOfCode2022::Solvers::SectionCleaner
     }.freeze
 
     MAX_DAYS = SOLVER_CLASSES.count
