@@ -11,16 +11,17 @@ module AdventOfCode2022
       end
 
       def solve
-        puts "start of packet position: #{find_start_of_message}" # Solution: 1287
+        puts "start of packet position with header length 4: #{find_start_of_message(header_length: 4)}" # Solution: 1287
+        puts "start of packet position with header length 14: #{find_start_of_message(header_length: 14)}" # Solution: 3716
       end
 
       private
 
       attr_reader :data
 
-      def find_start_of_message
-        buffer = data[0..3]
-        data[4..].each.with_index(4) do |letter, result|
+      def find_start_of_message(header_length:)
+        buffer = data[0..(header_length - 1)]
+        data[header_length..].each.with_index(header_length) do |letter, result|
           return result if buffer.uniq == buffer
 
           buffer << letter
