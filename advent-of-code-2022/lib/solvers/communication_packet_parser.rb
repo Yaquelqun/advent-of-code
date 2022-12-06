@@ -11,14 +11,14 @@ module AdventOfCode2022
       end
 
       def solve
-        puts "start of packet position: #{solve_part1}" # Solution: 
+        puts "start of packet position: #{find_start_of_message}" # Solution: 1287
       end
 
       private
 
       attr_reader :data
 
-      def solve_part1
+      def find_start_of_message
         buffer = data[0..3]
         data[4..].each.with_index(4) do |letter, result|
           return result if buffer.uniq == buffer
