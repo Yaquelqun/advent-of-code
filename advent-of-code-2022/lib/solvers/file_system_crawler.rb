@@ -14,14 +14,13 @@ module AdventOfCode2022
 
       def solve
         puts "total size of <= 100_000: #{solve_part1}" # Solution: 1182909
-        puts "smallest possible directory to delete: #{solve_part2}" # Solution: 
+        puts "smallest possible directory to delete: #{solve_part2}" # Solution: 2832508
       end
 
       private
 
       attr_reader :data, :home_directory
       attr_accessor :current_folder
-
 
       def solve_part1
         folders_to_parse = [@home_directory]
