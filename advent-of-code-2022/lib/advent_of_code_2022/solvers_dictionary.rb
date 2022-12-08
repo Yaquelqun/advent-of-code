@@ -7,6 +7,7 @@ require_relative "../solvers/rucksack_parser"
 require_relative "../solvers/section_cleaner"
 require_relative "../solvers/cargo_crate_planner"
 require_relative "../solvers/communication_packet_parser"
+require_relative "../solvers/file_system_crawler"
 
 module AdventOfCode2022
   # contains all solvers classes and define methods to access them
@@ -18,6 +19,7 @@ module AdventOfCode2022
       4 => AdventOfCode2022::Solvers::SectionCleaner,
       5 => AdventOfCode2022::Solvers::CargoCratePlanner,
       6 => AdventOfCode2022::Solvers::CommunicationPacketParser,
+      7 => AdventOfCode2022::Solvers::FileSystemCrawler,
     }.freeze
 
     MAX_DAYS = SOLVER_CLASSES.count
