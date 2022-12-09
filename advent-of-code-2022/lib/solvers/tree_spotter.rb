@@ -12,8 +12,9 @@ module AdventOfCode2022
       end
 
       def solve
-        puts "Amount of visible trees: #{solve_part1}" # Solution: 1543
-        puts "maximum scenic score: #{solve_part2}" # Solution: 595080
+        visible_count, max_scenic_score = parse_forest
+        puts "Amount of visible trees: #{visible_count}" # Solution: 1543
+        puts "maximum scenic score: #{max_scenic_score}" # Solution: 595080
       end
 
       private
@@ -22,27 +23,17 @@ module AdventOfCode2022
 
       DIRECTIONS = %w[up down left right].freeze
 
-      def solve_part1
+      def parse_forest
         x = y = 0
-        count = 0
+        visibility_count = max_scenic_score = 0
         while y <= max_y
-          count += 1 if DIRECTIONS.any? { send("visible_from_#{_1}?", x, y) }
-          x, y = increment_counter(x: x, y: y)
-        end
-
-        count
-      end
-
-      def solve_part2
-        x = y = 0
-        result = 0
-        while y <= max_y
+          visibility_count += 1 if DIRECTIONS.any? { send("visible_from_#{_1}?", x, y) }
           scenic_score = DIRECTIONS.map {send("visibility_looking_#{_1}", x, y)}.inject(&:*)
-          result = scenic_score if scenic_score > result
+          max_scenic_score = scenic_score if scenic_score > max_scenic_score
           x, y = increment_counter(x: x, y: y)
         end
 
-        result
+        [visibility_count, max_scenic_score]
       end
 
       def increment_counter(x:, y:)
