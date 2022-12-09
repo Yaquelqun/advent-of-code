@@ -12,7 +12,8 @@ module AdventOfCode2022
       end
 
       def solve
-        puts "Amount of visible trees: #{solve_part1}" # Solution: 
+        puts "Amount of visible trees: #{solve_part1}" # Solution: 1543
+        puts "maximum scenic score: #{solve_part2}" # Solution: 595080
       end
 
       private
@@ -30,6 +31,18 @@ module AdventOfCode2022
         end
 
         count
+      end
+
+      def solve_part2
+        x = y = 0
+        result = 0
+        while y <= max_y
+          scenic_score = DIRECTIONS.map {send("visibility_looking_#{_1}", x, y)}.inject(&:*)
+          result = scenic_score if scenic_score > result
+          x, y = increment_counter(x: x, y: y)
+        end
+
+        result
       end
 
       def increment_counter(x:, y:)
@@ -50,31 +63,55 @@ module AdventOfCode2022
       end
 
       def value_at(x, y)
-        @data[x][y]
+        @data[y][x]
+      end
+
+      def visibility_looking_up(x, y)
+        view = (0..(y - 1)).map { value_at(x, _1) }.reverse
+        visibility = view.index { _1 >= value_at(x, y) } || y - 1
+        visibility + 1
       end
 
       def visible_from_up?(x, y)
         return true if y.zero?
 
-        (0..(y - 1)).all? { @data[x][_1] < value_at(x, y)}
+        (0..(y - 1)).all? { value_at(x, _1) < value_at(x, y)}
+      end
+
+      def visibility_looking_down(x, y)
+        view = ((y + 1)..max_y).map { value_at(x, _1) }
+        visibility = view.index { _1 >= value_at(x, y) } || max_y - y - 1
+        visibility + 1
       end
 
       def visible_from_down?(x, y)
         return true if y == max_y
 
-        ((y + 1)..max_y).all? { @data[x][_1] < value_at(x, y) }
+        ((y + 1)..max_y).all? { value_at(x, _1) < value_at(x, y) }
+      end
+
+      def visibility_looking_left(x, y)
+        view = (0..(x - 1)).map { value_at(_1, y) }.reverse
+        visibility = view.index { _1 >= value_at(x, y) } || x - 1
+        visibility + 1
       end
 
       def visible_from_left?(x, y)
         return true if x.zero?
 
-        (0..(x - 1)).all? { @data[_1][y] < value_at(x, y)}
+        (0..(x - 1)).all? { value_at(_1, y) < value_at(x, y)}
+      end
+
+      def visibility_looking_right(x, y)
+        view = ((x + 1)..max_x).map { value_at(_1, y) }
+        visibility = view.index { _1 >= value_at(x, y) } || max_x - x - 1
+        visibility + 1
       end
 
       def visible_from_right?(x, y)
         return true if x == max_x
 
-        ((x + 1)..max_x).all? { @data[_1][y] < value_at(x, y) }
+        ((x + 1)..max_x).all? { value_at(_1, y) < value_at(x, y) }
       end
     end
   end
