@@ -2,6 +2,7 @@
 
 # require each solver 1 by 1 as the days go by
 Dir["./lib/solvers/*.rb"].each { |file| require file }
+Dir["./lib/helpers/*.rb"].each { |file| require file }
 # require_relative "../solvers/"
 
 module AdventOfCode2023
