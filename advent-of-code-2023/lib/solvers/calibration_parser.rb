@@ -10,7 +10,7 @@ module Solvers
 
     def solve
       puts "part 1: #{strict_calibration_values(inputs).sum}" # 54450
-      puts "part 2: #{loose_calibration_values.sum}" # 54365
+      puts "part 2: #{loose_calibration_values.sum}" # 54265
     end
 
     private
