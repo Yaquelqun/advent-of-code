@@ -10,9 +10,7 @@ module Solvers
 
     def solve
       puts "part 1: #{strict_calibration_values(inputs).sum}" # 54450
-      byebug
-      puts "part 2: #{loose_calibration_values.sum}"
-
+      puts "part 2: #{loose_calibration_values.sum}" # 54365
     end
 
     private
@@ -37,7 +35,7 @@ module Solvers
       "seven" => "7",
       "eight" => "8",
       "nine" => "9"
-    }
+    }.freeze
 
     def translate_numbers
       inputs.map { _1.gsub(/(#{NUMBER_DICT.keys.join("|")})/, **NUMBER_DICT) }
