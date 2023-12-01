@@ -41,6 +41,7 @@ GEM
 PLATFORMS
   x86_64-darwin-18
   x86_64-darwin-20
+  x86_64-darwin-22
 
 DEPENDENCIES
   byebug (~> 11.1, >= 11.1.3)

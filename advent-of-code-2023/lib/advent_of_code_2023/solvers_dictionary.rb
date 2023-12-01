@@ -3,7 +3,7 @@
 # require each solver 1 by 1 as the days go by
 # require_relative "../solvers/"
 
-module AdventOfCodePouet
+module AdventOfCode2023
   # contains all solvers classes and define methods to access them
   class SolversDictionary
     SOLVER_CLASSES = {
