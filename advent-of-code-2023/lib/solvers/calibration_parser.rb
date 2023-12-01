@@ -26,15 +26,15 @@ module Solvers
     end
 
     NUMBER_DICT = {
-      "one" => "1",
-      "two" => "2",
-      "three" => "3",
-      "four" => "4",
-      "five" => "5",
-      "six" => "6",
-      "seven" => "7",
-      "eight" => "8",
-      "nine" => "9"
+      "one" => "o1e",
+      "two" => "t2o",
+      "three" => "t3e",
+      "four" => "f4r",
+      "five" => "f5e",
+      "six" => "s6x",
+      "seven" => "s7n",
+      "eight" => "e8t",
+      "nine" => "n9e"
     }.freeze
 
     def translate_numbers
