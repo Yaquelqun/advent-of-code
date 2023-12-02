@@ -22,7 +22,7 @@ module Solvers
     end
 
     def loose_calibration_values
-      strict_calibration_values(translate_numbers)
+      strict_calibration_values(inputs.map { |input| translate_numbers.call(translate_numbers.call(input)) })
     end
 
     NUMBER_DICT = {
@@ -38,7 +38,7 @@ module Solvers
     }.freeze
 
     def translate_numbers
-      inputs.map { _1.gsub(/(#{NUMBER_DICT.keys.join("|")})/, **NUMBER_DICT) }
+      -> { _1.gsub(/(#{NUMBER_DICT.keys.join("|")})/, **NUMBER_DICT) }
     end
   end
 end
