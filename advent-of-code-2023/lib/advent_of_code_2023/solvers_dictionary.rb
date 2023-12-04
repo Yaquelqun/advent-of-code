@@ -11,7 +11,8 @@ module AdventOfCode2023
     SOLVER_CLASSES = {
       1 => ::Solvers::CalibrationParser,
       2 => ::Solvers::CubeCounter,
-      3 => ::Solvers::SchematicParser
+      3 => ::Solvers::SchematicParser,
+      4 => ::Solvers::ScratchcardComputer
     }.freeze
 
     MAX_DAYS = SOLVER_CLASSES.count
