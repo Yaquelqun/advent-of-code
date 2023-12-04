@@ -11,9 +11,16 @@ class Scratchcard
   end
 
   def score
-    winning_numbers_count = (targets & scratched).length
-    return 0 if winning_numbers_count.zero?
+    return 0 if winnings.zero?
 
-    2.pow(winning_numbers_count - 1)
+    2.pow(winnings - 1)
+  end
+
+  def won_card_ids
+    @won_card_ids ||= (id..(id + winnings)).to_a - [id]
+  end
+
+  def winnings
+    @winnings ||= (targets & scratched).length
   end
 end
