@@ -9,7 +9,7 @@ class SchematicPart
     @type = type
   end
 
-  def is_gear_ratio?
+  def gear_ratio?
     value == "*"
   end
 

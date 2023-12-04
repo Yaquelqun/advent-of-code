@@ -36,7 +36,7 @@ module Solvers
       result = 0
 
       symbols.each do |symbol|
-        next unless symbol.is_gear_ratio?
+        next unless symbol.gear_ratio?
 
         integers = parts.select { _1.type == :integer && _1.adjacent_to?(*symbol.positions[0]) }
         next unless integers.length == 2
