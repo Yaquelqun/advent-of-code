@@ -14,6 +14,7 @@ module Solvers
 
     def solve
       puts "parts1: #{solve_part1}"
+      puts "parts2: #{solve_part2}"
     end
 
     private
@@ -28,6 +29,30 @@ module Solvers
         result += 1 if position.zero?
       end
 
+      result
+    end
+
+    def solve_part2
+      result = 0
+      position = 50
+      started_at0 = false
+      steps.each do |direction, amount|
+        print "#{position} #{direction} #{amount} = "
+        position = position.send(direction, amount)
+        print "#{position} \n"
+        if !started_at0 && (position > 100 || position.negative?)
+          puts "adding 1 'cause it crossed 0"
+          result += 1
+        end
+        position %= 100
+        if position.zero?
+          started_at0 = true
+          puts "adding 1 'cause it ended at 0"
+          result += 1
+        else
+          started_at0 = false
+        end
+      end
       result
     end
   end
