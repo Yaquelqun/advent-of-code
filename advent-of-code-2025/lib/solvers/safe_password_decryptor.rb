@@ -5,8 +5,8 @@ module Solvers
   class SafePasswordDecryptor
     attr_reader :steps
 
-    def initialize
-      @steps = Helpers::InputParser.new(endpoint: "day1")
+    def initialize(input: "day1")
+      @steps = Helpers::InputParser.new(input: input)
                                    .parse_data
                                    .map { |step| [step[0], step[1..]] }
                                    .map { |direction, amount| [direction == "L" ? "-" : "+", amount.to_i] }
@@ -16,8 +16,6 @@ module Solvers
       puts "parts1: #{solve_part1}"
       puts "parts2: #{solve_part2}"
     end
-
-    private
 
     def solve_part1
       result = 0
@@ -40,14 +38,22 @@ module Solvers
         print "#{position} #{direction} #{amount} = "
         position = position.send(direction, amount)
         print "#{position} \n"
-        if !started_at0 && (position > 100 || position.negative?)
-          puts "adding 1 'cause it crossed 0"
-          result += 1
+        if !started_at0 && position > 100
+          to_add = position / 100
+          puts "adding #{to_add} 'cause it crossed 0 #{to_add} times"
+          result += to_add
+        elsif !started_at0 && position.negative?
+          to_add = 1 + (position / 100).abs
+          puts "adding #{to_add} 'cause it crossed 0 #{to_add} times"
+          result += to_add
         end
+
         position %= 100
         if position.zero?
           started_at0 = true
           puts "adding 1 'cause it ended at 0"
+          to_add = 1 + (amount /100)
+          puts "adding another #{to_add} since we made another #{to_add} turns"
           result += 1
         else
           started_at0 = false

@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-
+require "byebug"
 require_relative "advent_of_code_2025/day_solver"
 
 # main module
