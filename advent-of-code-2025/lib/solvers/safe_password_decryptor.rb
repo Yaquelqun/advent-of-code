@@ -21,9 +21,9 @@ module Solvers
       result = 0
       position = 50
       steps.each do |direction, amount|
-        # print "#{position} #{direction} #{amount} = "
-        position = position.send(direction, amount) % 100
-        # print "#{position} \n"
+        movement_result = move_dial(position, direction, amount)
+        puts "result: #{movement_result}"
+        position = movement_result[:final_position]
         result += 1 if position.zero?
       end
 
@@ -33,33 +33,36 @@ module Solvers
     def solve_part2
       result = 0
       position = 50
-      started_at0 = false
       steps.each do |direction, amount|
-        print "#{position} #{direction} #{amount} = "
-        position = position.send(direction, amount)
-        print "#{position} \n"
-        if !started_at0 && position > 100
-          to_add = position / 100
-          puts "adding #{to_add} 'cause it crossed 0 #{to_add} times"
-          result += to_add
-        elsif !started_at0 && position.negative?
-          to_add = 1 + (position / 100).abs
-          puts "adding #{to_add} 'cause it crossed 0 #{to_add} times"
-          result += to_add
-        end
-
-        position %= 100
-        if position.zero?
-          started_at0 = true
-          puts "adding 1 'cause it ended at 0"
-          to_add = 1 + (amount /100)
-          puts "adding another #{to_add} since we made another #{to_add} turns"
-          result += 1
-        else
-          started_at0 = false
-        end
+        movement_result = move_dial(position, direction, amount)
+        puts "result: #{movement_result}"
+        position = movement_result[:final_position]
+        result += 1 if position.zero?
+        result += movement_result[:complete_turns]
+        result += 1 if movement_result[:crossed_zero]
       end
       result
+    end
+
+    def move_dial(position, direction, amount)
+      complete_turns = amount / 100
+      remainder = amount.remainder(100)
+      final_position = position.send(direction, remainder) % 100
+      crossed_zero = crossed_zero?(direction, position, final_position)
+      {
+        position:,
+        direction:,
+        amount:,
+        final_position:, 
+        complete_turns:,
+        crossed_zero: 
+      }
+    end
+
+    def crossed_zero?(direction, position, final_position)
+      return false if position.zero? || final_position.zero?
+
+      (direction == '+'  && final_position < position) || (direction == '-' && final_position > position)
     end
   end
 end
