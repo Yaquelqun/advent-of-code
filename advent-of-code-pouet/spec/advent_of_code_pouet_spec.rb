@@ -1,4 +1,4 @@
 # frozen_string_literal: true
 
-RSpec.describe AdventOfCodePouet do
+RSpec.describe AdventOfCode2025 do
 end
