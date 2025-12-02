@@ -36,19 +36,20 @@ module Helpers
 
     private
 
-    def check_patterned_number(number)
+    def check_patterned_number(number, pattern)
       return unless range.include?(number)
 
-      puts "flagging #{number}"
-      result << number
+      # puts "flagging #{number}"
+      result << { number: number, pattern: pattern}
     end
 
     # We're going to want to repeat the pattern until it's higher than the higher range
     def check_all_repetitions(pattern)
       built_pattern = pattern
+      # puts "testing pattern #{pattern}"
       loop do
         # puts built_pattern
-        check_patterned_number(built_pattern)
+        check_patterned_number(built_pattern, pattern)
         built_pattern = (built_pattern.to_s + pattern.to_s).to_i
         return if built_pattern > range.last
       end
