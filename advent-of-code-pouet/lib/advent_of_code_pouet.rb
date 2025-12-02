@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "advent_of_code_pouet/day_solver"
+require "byebug"
 
 # main module
 module AdventOfCodePouet

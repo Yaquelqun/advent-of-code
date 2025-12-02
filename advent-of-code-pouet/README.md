@@ -25,3 +25,8 @@ I'll try to keep the master branch as a template so that as the years go by, i c
   - Each day usually has one abstraction level that i usually put in the model folder
   - Inter day abstraction levels (if there are any) can go in helpers
   - The rest of the code is in the solver class (maybe i could have a folder per day if i want to have several files for each day)
+
+# Initialization Procedure
+  - Make the new branch
+  - Replace Pouet everywhere by your year
+  - Should be about all
