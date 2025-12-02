@@ -7,7 +7,8 @@ module AdventOfCode2025
   # contains all solvers classes and define methods to access them
   class SolversDictionary
     SOLVER_CLASSES = {
-      1 => ::Solvers::SafePasswordDecryptor
+      1 => ::Solvers::SafePasswordDecryptor,
+      2 => ::Solvers::FalseIdsFinder
     }.freeze
 
     MAX_DAYS = SOLVER_CLASSES.count
