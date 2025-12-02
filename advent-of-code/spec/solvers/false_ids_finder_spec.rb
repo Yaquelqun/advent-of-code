@@ -17,7 +17,7 @@ RSpec.describe Solvers::FalseIdsFinder do
     let(:input) { "day2_test" }
 
     it "returns the right result" do
-      expect(subject).to eql 4174379265
+      expect(subject).to eql 4_174_379_265
     end
   end
 end

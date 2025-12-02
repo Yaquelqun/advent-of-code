@@ -1,20 +1,23 @@
 # frozen_string_literal: true
 
-# Problem:
-# A safe rotary dial starts at 50, and we have a list of operations
-# that contain a direction and movement range (how much we turn the dial)
-# Given those information:
-# - compute how many times the dial ended up on 0
-# - compute how many times the dial ended up or crossed 0 while turning
 module Solvers
+  # Problem:
+  # A safe rotary dial starts at 50, and we have a list of operations
+  # that contain a direction and movement range (how much we turn the dial)
+  # Given those information:
+  # - compute how many times the dial ended up on 0
+  # - compute how many times the dial ended up or crossed 0 while turning
   class SafePasswordDecryptor
     attr_reader :steps
 
     def initialize(input: "day1")
+      # The input is a bunch of lines with one char and a number per line (like "R1234 or L23")
+      # The goal is to turn them into a an array of arrays with an operation and a number
+      # like [['+', 1234], ['-, 23']] so it's easy to make the computations later
       @steps = Helpers::InputParser.new(input: input)
                                    .parse_data
-                                   .map { |step| [step[0], step[1..]] } # Split the input into [direction(L or R), amount]
-                                   .map { |direction, amount| [direction == "L" ? "-" : "+", amount.to_i] } # Replaces L and R by +/- to more easily compute stuff
+                                   .map { |step| [step[0], step[1..]] }
+                                   .map { |direction, amount| [direction == "L" ? "-" : "+", amount.to_i] }
     end
 
     def solve
@@ -22,9 +25,7 @@ module Solvers
       puts "parts2: #{solve_part2}"
     end
 
-    def solve_part1
-      result = 0
-      position = 50
+    def solve_part1(result = 0, position = 50)
       steps.each do |direction, amount|
         movement_result = move_dial(position, direction, amount)
         puts "result: #{movement_result}"
@@ -35,9 +36,7 @@ module Solvers
       result
     end
 
-    def solve_part2
-      result = 0
-      position = 50
+    def solve_part2(result = 0, position = 50)
       steps.each do |direction, amount|
         movement_result = move_dial(position, direction, amount)
         puts "result: #{movement_result}"
@@ -53,16 +52,11 @@ module Solvers
     def move_dial(position, direction, amount)
       complete_turns = amount / 100 # Complete turns are irrelevant until part 2
       remainder = amount.remainder(100) # Remainder is the real movement
-      final_position = position.send(direction, remainder) % 100 # since we precomputed L/R into +/-, send is really cool now =D
+      # since we precomputed L/R into +/-, send is really cool now =D
+      final_position = position.send(direction, remainder) % 100
       crossed_zero = crossed_zero?(direction, position, final_position) # relevant for part 2
-      {
-        position:,
-        direction:,
-        amount:,
-        final_position:,
-        complete_turns:,
-        crossed_zero:
-      }
+      { position:, direction:, amount:, final_position:,
+        complete_turns:, crossed_zero: }
     end
 
     # This method checks if the idial crossed 0

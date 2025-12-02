@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-# Problem:
-# Given several ranges
-# Iterate over all numbers in the range
-# save numbers that are comprised of patterns
 module Solvers
+  # Problem:
+  # Given several ranges
+  # Iterate over all numbers in the range
+  # save numbers that are comprised of patterns
   class FalseIdsFinder
     attr_reader :ranges
 
