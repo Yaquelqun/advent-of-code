@@ -3,7 +3,7 @@
 # Problem:
 # A safe rotary dial starts at 50, and we have a list of operations
 # that contain a direction and movement range (how much we turn the dial)
-# Given those information: 
+# Given those information:
 # - compute how many times the dial ended up on 0
 # - compute how many times the dial ended up or crossed 0 while turning
 module Solvers
@@ -59,22 +59,23 @@ module Solvers
         position:,
         direction:,
         amount:,
-        final_position:, 
+        final_position:,
         complete_turns:,
-        crossed_zero: 
+        crossed_zero:
       }
     end
 
     # This method checks if the idial crossed 0
     def crossed_zero?(direction, position, final_position)
-      return false if position.zero? || final_position.zero? # if started or ended up on 0, we technically didn't cross it
+      # if started or ended up on 0, we technically didn't cross it
+      return false if position.zero? || final_position.zero?
 
       # Looking at a dial,
       # assuming that we haven't done more than a full turn (which we know since we removed them with complete_turns)
       # we know that we crossed 0 if the dial end up before where it was going forward
       # or after where it was going backward
       # There's gotta be a better way of doing this, but it's getting late :p
-      (direction == '+'  && final_position < position) || (direction == '-' && final_position > position)
+      (direction == "+" && final_position < position) || (direction == "-" && final_position > position)
     end
   end
 end
