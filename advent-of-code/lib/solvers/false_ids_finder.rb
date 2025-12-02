@@ -18,51 +18,51 @@ module Solvers
     end
 
     def solve
-      # puts "parts1: #{solve_part1}" 64215794229 is correct
-      puts "parts2: #{solve_part2}" # 85 513 235 180 is too high
+      puts "parts1: #{solve_part1}" # 64215794229 is correct
+      puts "parts2: #{solve_part2}" # 85 513 235 135 is too high
     end
 
-    def solve_part1(false_ids = [])
+    def solve_part1(false_ids = [], report = [])
       ranges.each_with_index do |range, index|
         puts "Checking range #{range.inspect}, #{index + 1}/#{ranges.length}"
         patterned_numbers = Helpers::RangePatternFinder.new(range).simple_patterned_numbers
-        false_ids |= patterned_numbers
+        report << { range:, patterned_numbers: } # To help debug
+        false_ids |= patterned_numbers.map { _1[:number] }
       end
+      check_report(report)
       false_ids.sum
     end
 
     def solve_part2(false_ids = [], report = [])
-      ranges.each_with_index do |range,index|
+      ranges.each_with_index do |range, index|
         puts "Checking range #{range.inspect}, #{index + 1}/#{ranges.length}"
-        (1..max_pattern_size(range)).each do |pattern_size|
-          # patterned_numbers is an array of {number: integer, pattern: integer}
-          patterned_numbers = Helpers::RangePatternFinder.new(range).complex_patterned_numbers(pattern_size:)
-          report << { range: , patterned_numbers: } # To help debug
-          false_ids |= patterned_numbers.map { _1[:number] }
-        end
+        patterned_numbers = Helpers::RangePatternFinder.new(range).complex_patterned_numbers
+        report << { range:, patterned_numbers: } # To help debug
+        false_ids |= patterned_numbers.map { _1[:number] }
       end
       check_report(report)
       false_ids.uniq.sum
     end
 
-    # The maximum pattern size is half the digits of the highest number
-    def max_pattern_size(range)
-      range.last.to_s.length/2
-    end
-
     def check_report(report)
       puts "checking report"
-
-      # checked_numbers = []
       report.each do |range_report|
         report_range = range_report[:range]
         range_report[:patterned_numbers].each do |pattern_number|
-          puts "checking #{pattern_number} in range #{report_range}"
           number = pattern_number[:number]
-          puts "invalid number #{pattern_number}" if number < report_range.first || number > report_range.last
-          puts "invalid number #{pattern_number}" unless number.to_s.gsub(pattern_number[:pattern].to_s, '').empty?
+          if out_of_range?(number, report_range) || not_a_pattern?(number, pattern_number[:pattern])
+            puts "invalid number #{pattern_number}"
+          end
         end
       end
+    end
+
+    def out_of_range?(number, range)
+      number < range.first || number > range.last
+    end
+
+    def not_a_pattern?(number, pattern)
+      !number.to_s.gsub(pattern.to_s, "").empty?
     end
   end
 end
