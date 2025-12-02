@@ -19,7 +19,7 @@ module Solvers
 
     def solve
       puts "parts1: #{solve_part1}" # 64215794229 is correct
-      puts "parts2: #{solve_part2}" # 85 513 235 135 is too high
+      puts "parts2: #{solve_part2}" # 85 513 235 135 is correct
     end
 
     def solve_part1(false_ids = [], report = [])
