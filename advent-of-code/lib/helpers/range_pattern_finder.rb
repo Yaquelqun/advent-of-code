@@ -49,8 +49,8 @@ module Helpers
       # puts "testing pattern #{pattern}"
       loop do
         # puts built_pattern
-        check_patterned_number(built_pattern, pattern)
         built_pattern = (built_pattern.to_s + pattern.to_s).to_i
+        check_patterned_number(built_pattern, pattern)
         return if built_pattern > range.last
       end
     end
