@@ -18,22 +18,33 @@ module Solvers
     end
 
     def solve
-      puts "parts1: #{solve_part1}"
-      puts "parts2: #{solve_part2}"
+      # puts "parts1: #{solve_part1}"
+      puts "parts2: #{solve_part2}" # 85513235180 is too high
     end
 
-    def solve_part1
-      false_ids = []
+    def solve_part1(false_ids = [])
       ranges.each_with_index do |range, index|
         puts "Checking range #{range.inspect}, #{index + 1}/#{ranges.length}"
-        patterned_numbers = Helpers::RangePatternFinder.new(range).patterned_numbers
-        false_ids += patterned_numbers
+        patterned_numbers = Helpers::RangePatternFinder.new(range).simple_patterned_numbers
+        false_ids |= patterned_numbers
       end
       false_ids.sum
     end
 
-    def solve_part2
-      "done2"
+    def solve_part2(false_ids = [])
+      ranges.each_with_index do |range,index|
+        puts "Checking range #{range.inspect}, #{index + 1}/#{ranges.length}"
+        (1..max_pattern_size(range)).each do |pattern_size|
+          patterned_numbers = Helpers::RangePatternFinder.new(range).complex_patterned_numbers(pattern_size:)
+          false_ids |= patterned_numbers
+        end
+      end
+      false_ids.uniq.sum
+    end
+
+    # The maximum pattern size is half the digits of the highest number
+    def max_pattern_size(range)
+      range.last.to_s.length/2
     end
   end
 end
