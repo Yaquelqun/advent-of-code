@@ -10,8 +10,7 @@ module Solvers
       # get each line and split them into single digits
       @banks = Helpers::InputParser.new(input: input)
                                     .parse_data
-                                    .split('')
-                                    .map(&:to_i)
+                                    .map { _1.split('').map(&:to_i) }
     end
 
     def solve
@@ -21,6 +20,7 @@ module Solvers
 
     def solve_part1()
       banks.sum do |bank|
+        puts "checking bank #{bank}"
         jolter_bank = ::Helpers::JolterBank.new(bank)
         resolve_bank(jolter_bank)
       end
@@ -33,6 +33,7 @@ module Solvers
     private
     def resolve_bank(jolter_bank)
       jolter_bank.initialize_ouput
+      puts "bank initialize with input #{jolter_bank.input_bank} and ouput #{jolter_bank.output_bank}"
       until jolter_bank.empty?
         jolter_bank.advance
       end
