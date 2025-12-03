@@ -21,13 +21,17 @@ module Solvers
     def solve_part1()
       banks.sum do |bank|
         puts "checking bank #{bank}"
-        jolter_bank = ::Helpers::JolterBank.new(bank)
+        jolter_bank = ::Helpers::JolterBank.new(bank, 2)
         resolve_bank(jolter_bank)
       end
     end
 
     def solve_part2()
-      "done2"
+      banks.sum do |bank|
+        puts "checking bank #{bank}"
+        jolter_bank = ::Helpers::JolterBank.new(bank, 12)
+        resolve_bank(jolter_bank)
+      end
     end
 
     private

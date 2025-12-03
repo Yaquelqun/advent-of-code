@@ -17,7 +17,7 @@ RSpec.describe Solvers::JolterComputer do
     let(:input) { "day3_test" }
 
     it "returns the right result" do
-      expect(subject).to eql 0
+      expect(subject).to eql 3121910778619
     end
   end
 end

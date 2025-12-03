@@ -2,8 +2,9 @@ module Helpers
   class JolterBank
     attr_accessor :input_bank
 
-    def initialize(input_bank)
+    def initialize(input_bank, ouput_size)
       @input_bank = input_bank
+      @ouput_size = output_size
     end
 
     # We start by putting the first two numbers of the input bank into the ouput one
