@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 module Helpers
+  # Model of a bank of jolter
+  # contains a bunch of helper methods to
+  # work the algorigthm step by step
   class JolterBank
     attr_accessor :input_bank, :output_size
 
