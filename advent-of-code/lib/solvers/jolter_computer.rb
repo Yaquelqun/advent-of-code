@@ -14,12 +14,12 @@ module Solvers
     end
 
     def solve
-      puts "parts1: #{solve_part1}" #  is correct
-      puts "parts2: #{solve_part2}" #  is correct
+      # puts "parts1: #{solve_part1}" # 17412 is correct
+      puts "parts2: #{solve_part2}" # 172681562473501 is correct
     end
 
     def solve_part1()
-      banks.sum do |bank|
+      banks.dup.sum do |bank|
         puts "checking bank #{bank}"
         jolter_bank = ::Helpers::JolterBank.new(bank, 2)
         resolve_bank(jolter_bank)
@@ -27,7 +27,7 @@ module Solvers
     end
 
     def solve_part2()
-      banks.sum do |bank|
+      banks.dup.sum do |bank|
         puts "checking bank #{bank}"
         jolter_bank = ::Helpers::JolterBank.new(bank, 12)
         resolve_bank(jolter_bank)

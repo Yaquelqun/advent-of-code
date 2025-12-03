@@ -12,7 +12,7 @@ RSpec.describe Solvers::JolterComputer do
     end
   end
 
-  xdescribe "#solve_part2" do
+  describe "#solve_part2" do
     subject { described_class.new(input:).solve_part2 }
     let(:input) { "day3_test" }
 
