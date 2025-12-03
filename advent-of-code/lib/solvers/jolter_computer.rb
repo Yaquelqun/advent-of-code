@@ -4,11 +4,14 @@ module Solvers
   # make the highest 2 digits number where the first
   # digits is before the second one
   class JolterComputer
-     attr_reader :ranges
+     attr_reader :banks
 
     def initialize(input: "day3")
-      @ranges = Helpers::InputParser.new(input: input)
+      # get each line and split them into single digits
+      @banks = Helpers::InputParser.new(input: input)
                                     .parse_data
+                                    .split('')
+                                    .map(&:to_i)
     end
 
     def solve
@@ -17,11 +20,23 @@ module Solvers
     end
 
     def solve_part1()
-      "done1"
+      banks.sum do |bank|
+        jolter_bank = ::Helpers::JolterBank.new(bank)
+        resolve_bank(jolter_bank)
+      end
     end
 
     def solve_part2()
       "done2"
+    end
+
+    private
+    def resolve_bank(jolter_bank)
+      jolter_bank.initialize_ouput
+      until jolter_bank.empty?
+        jolter_bank.advance
+      end
+      jolter_bank.integer_output
     end
   end
 end
