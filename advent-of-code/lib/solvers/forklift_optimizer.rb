@@ -18,16 +18,39 @@ module Solvers
     end
 
     def solve_part1()
-      @rolls = []
+      result = 0
       grid.each_with_index do |row, row_num|
         row.each_with_index do |element, col_num|
-          @rolls << ::Helpers::PaperRoll.new(element, row_num, col_num, grid)
+          result += 1 if forkliftable?(element, row_num, col_num)
         end
       end
-      @rolls.select(&:forkliftable?).count
+      result
     end
 
     def solve_part2()
+    end
+
+    private
+    def forkliftable?(element, row_num, col_num)
+      return false unless element == "@"
+      surrounding_weight(row_num, col_num) <= 4
+    end
+
+    def surrounding_weight(row_num, col_num)
+      weight = 0
+      col_range = immediate_neighbors(col_num)
+      grid[immediate_neighbors(row_num)].each do |row|
+        row[col_range].each do |element|
+          weight += 1 if element == '@'
+        end
+      end
+      weight
+    end
+
+    def immediate_neighbors(num)
+        min = num.zero? ? 0 : num - 1
+        max = num + 1
+        Range.new(min, max)
     end
   end
 end
