@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Helpers
   class JolterBank
     attr_accessor :input_bank, :output_size
@@ -31,9 +33,8 @@ module Helpers
       @output_bank.map(&:to_s).join.to_i
     end
 
-    def output_bank
-      @output_bank
-    end
+    attr_reader :output_bank
+
     private
 
     # To resolve the output, we compare each number to the next in the list

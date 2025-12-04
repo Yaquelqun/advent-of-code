@@ -17,7 +17,7 @@ RSpec.describe Solvers::ForkliftOptimizer do
     let(:input) { "day4_test" }
 
     it "returns the right result" do
-      expect(subject).to eql '43'
+      expect(subject).to eql 43
     end
   end
 end
