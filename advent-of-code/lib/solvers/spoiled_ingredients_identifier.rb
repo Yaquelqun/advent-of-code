@@ -2,10 +2,10 @@
 
 module Solvers
   # Problem:
-  class TemplateSolver
+  class SpoiledIngredientsIdentifier
     attr_reader :placeholder
 
-    def initialize(input: "day4")
+    def initialize(input: "day5")
       # get each line and split them into single chars
       @placeholder = Helpers::InputParser.new(input: input)
                                         .parse_data
