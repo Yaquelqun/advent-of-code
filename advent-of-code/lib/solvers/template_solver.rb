@@ -8,7 +8,7 @@ module Solvers
     def initialize(input: "day4")
       # get each line and split them into single chars
       @placeholder = Helpers::InputParser.new(input: input)
-                                        .parse_data
+                                         .parse_data
     end
 
     def solve
@@ -16,15 +16,8 @@ module Solvers
       puts "parts2: #{solve_part2}" # is correct
     end
 
-    def solve_part1(result = 0)
+    def solve_part1(result = 0); end
 
-    end
-
-    def solve_part2(result = 0)
-
-    end
-
-    private
-
+    def solve_part2(result = 0); end
   end
 end
