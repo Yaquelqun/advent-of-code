@@ -19,12 +19,11 @@ module Solvers
 
     def solve
       puts "parts1: #{solve_part1}" # 520 is correct
-      puts "parts2: #{solve_part2}" # 352347720583355 is too high
+      puts "parts2: #{solve_part2}" # 347338785050515 is too correct
     end
 
     def solve_part1(result = 0)
       ingredient_ids.each_with_index do |ingredient_id, index|
-        puts "Treating ingredient #{index + 1}/#{ingredient_ids.count}"
         result += 1 if ranges.any? { _1.include? ingredient_id }
       end
       result
