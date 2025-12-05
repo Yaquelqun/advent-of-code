@@ -17,7 +17,7 @@ RSpec.describe Solvers::SpoiledIngredientsIdentifier do
     let(:input) { "day5_test" }
 
     it "returns the right result" do
-      expect(subject).to eql "done2"
+      expect(subject).to eql 14
     end
   end
 end

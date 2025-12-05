@@ -19,7 +19,7 @@ module Solvers
 
     def solve
       puts "parts1: #{solve_part1}" # 520 is correct
-      puts "parts2: #{solve_part2}" # is correct
+      puts "parts2: #{solve_part2}" # 352347720583355 is too high
     end
 
     def solve_part1(result = 0)
@@ -30,7 +30,10 @@ module Solvers
       result
     end
 
-    def solve_part2; end
+    def solve_part2(all_numbers = [])
+      reduced_ranges = reduce_ranges(ranges.dup) # Duplicating 'cause i'm gonna mutate the input
+      reduced_ranges.sum(&:size)
+    end
 
     private
 
@@ -39,6 +42,47 @@ module Solvers
         boundaries = i.split("-").map(&:to_i)
         Range.new(boundaries[0], boundaries[1])
       end
+    end
+
+    # Since part 2 is too machine intensive, 
+    # we need to merge the ranges first to make sure
+    # that the list only contains exclusive ranges
+    # to make their size easier to compute
+    def reduce_ranges(unresolved_ranges, result = [])
+      unresolved_ranges.sort_by!(&:first)
+      until unresolved_ranges.empty?
+        range = unresolved_ranges.first
+        # get all ranges where one of the boundaries is in our range (this will get our current range)
+        conflicted_ranges = unresolved_ranges.select { _1.min.between?(range.min, range.max) || _1.max.between?(range.min, range.max) }
+
+        if conflicted_ranges == [range] # If no conflict
+          result << range
+          unresolved_ranges.shift
+          next
+        end
+
+        extended_range = build_extended_range(conflicted_ranges)
+        # Now the only thing left to do is to remove the conflicted ranges (and us) from the array now that they have been resolved
+        conflicted_ranges.each { unresolved_ranges.delete(_1) } 
+        # And add the extended range to the unresolved_ranges to be further refined
+        unresolved_ranges << extended_range
+      end
+      result
+    end
+
+    # Helper method to check if the results coherents
+    def check_ranges(input)
+      input.each do |range|
+        conflicted_ranges = input.select { _1.min.between?(range.min, range.max) || _1.max.between?(range.min, range.max) }
+        raise "conflict found ! #{range} is conflicting with #{conflicted_ranges.inspect}" if conflicted_ranges.count > 1
+      end
+    end
+
+    def build_extended_range(input)
+      # The extented range is now the collective min/max of the conflicted_ranges
+        extended_range_min = (input).map(&:min).min
+        extended_range_max = (input).map(&:max).max
+        Range.new(extended_range_min, extended_range_max)
     end
   end
 end
