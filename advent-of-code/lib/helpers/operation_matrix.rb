@@ -14,7 +14,6 @@ module Helpers
     end
 
     def operate
-      puts "resolving matrix #{numbers_matrix.inspect}"
       operations.map.with_index do |operation, index| # for each operation
         # get the former column now row
         matrix_row = numbers_matrix.row(index)

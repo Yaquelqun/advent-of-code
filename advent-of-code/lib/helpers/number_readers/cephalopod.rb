@@ -10,7 +10,6 @@ module Helpers
       # Thankfully, cephalopods also don't know about the number 0
       # so we can use that to pad the number
       def self.read_input(input)
-        puts "input= #{input.inspect}"
         # Could probably be a regex but i'm too lazy to dig in there
         result = input.map { _1.split("") } # separate each character of each row
         result.map! do |row|
