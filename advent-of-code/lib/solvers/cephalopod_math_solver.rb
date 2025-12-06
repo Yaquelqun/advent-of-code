@@ -8,10 +8,9 @@ module Solvers
     attr_reader :input
 
     def initialize(input: "day6")
-      # get each line and split them into single chars
+      # get each line
     @input = Helpers::InputParser.new(input: input)
                                 .parse_data
-                                .map { _1.split(" ") }
     
     end
 
