@@ -16,7 +16,7 @@ module Solvers
 
     def solve
       puts "parts1: #{solve_part1}" # 4805473544166 is correct
-      puts "parts2: #{solve_part2}" # is correct
+      puts "parts2: #{solve_part2}" # 8907730960817 is correct
     end
 
     def solve_part1
