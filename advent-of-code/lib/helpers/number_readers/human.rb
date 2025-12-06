@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Helpers
   module NumberReaders
     # Human number reader class.
@@ -9,6 +11,7 @@ module Helpers
       def self.read_input(input)
         input.map { _1.split(" ") }
       end
+
       # Humans read each row by turning numbers into integers
       def self.read_row(row)
         row.map(&:to_i)

@@ -8,7 +8,7 @@ RSpec.describe Solvers::CephalopodMathSolver do
     let(:input) { "day6_test" }
 
     it "returns the right result" do
-      expect(subject).to eql 4277556
+      expect(subject).to eql 4_277_556
     end
   end
 
@@ -17,7 +17,7 @@ RSpec.describe Solvers::CephalopodMathSolver do
     let(:input) { "day6_test" }
 
     it "returns the right result" do
-      expect(subject).to eql 3263827
+      expect(subject).to eql 3_263_827
     end
   end
 end

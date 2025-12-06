@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Solvers
   # Problem:
   # Given a 2 dimensional rectangular array
@@ -9,9 +10,8 @@ module Solvers
 
     def initialize(input: "day6")
       # get each line
-    @input = Helpers::InputParser.new(input: input)
-                                .parse_data
-    
+      @input = Helpers::InputParser.new(input: input)
+                                   .parse_data
     end
 
     def solve
@@ -21,14 +21,14 @@ module Solvers
 
     def solve_part1
       ::Helpers::OperationMatrix
-      .new(input: input, reader: Helpers::NumberReaders::Human)
-      .operate
+        .new(input: input, reader: Helpers::NumberReaders::Human)
+        .operate
     end
 
     def solve_part2
       ::Helpers::OperationMatrix
-      .new(input: input, reader: Helpers::NumberReaders::Cephalopod)
-      .operate
+        .new(input: input, reader: Helpers::NumberReaders::Cephalopod)
+        .operate
     end
   end
 end
