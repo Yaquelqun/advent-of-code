@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Dir["./lib/solvers/*.rb"].each { |file| require file }
-Dir["./lib/helpers/*.rb"].each { |file| require file }
+Dir["./lib/helpers/**/*.rb"].each { |file| require file }
 
 module AdventOfCode2025
   # contains all solvers classes and define methods to access them

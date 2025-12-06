@@ -21,13 +21,13 @@ module Solvers
 
     def solve_part1
       ::Helpers::OperationMatrix
-      .new(input: input, number_reading_method: :human)
+      .new(input: input, reader: Helpers::NumberReaders::Human)
       .operate
     end
 
     def solve_part2
       ::Helpers::OperationMatrix
-      .new(input: input, number_reading_method: :cephalopod)
+      .new(input: input, reader: Helpers::NumberReader::Cephalopod)
       .operate
     end
   end

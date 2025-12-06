@@ -3,12 +3,12 @@ require 'matrix'
 module Helpers
   # Helper class to contain both operations and numbers
   class OperationMatrix
-    attr_reader :read_input, :numbers_matrix, :operations, :number_reading_method
+    attr_reader :input, :reader, :numbers_matrix, :operations
     
-    def initialize(input:, number_reading_method:)
-      @read_input = send("read_input_as_#{number_reading_method}", input)
+    def initialize(input:, reader:)
+      @input = input
+      @reader = reader
       @operations = input.last.split(" ") # Operations are on the last line
-      @number_reading_method = number_reading_method
     end
 
     def operate
@@ -18,8 +18,8 @@ module Helpers
         matrix_row = numbers_matrix.row(index)
         
         # read the row depending on which species you are
-        numbers = send("read_row_as_#{number_reading_method}", matrix_row.to_a)
-        byebug
+        numbers = reader.read_row(matrix_row.to_a)
+
         # apply the operation to the entire row
         numbers.reduce(operation.to_sym)
       end.sum
@@ -30,23 +30,12 @@ module Helpers
     # and rotates it
     def numbers_matrix
       @numbers_matrix ||= begin
-        rows = read_input # exclude last line since that's the operations
+        rows = reader.read_input(input[..-2]) # exclude last line since that's the operations
 
         # Now that we have rows, we can feed them all as columns
         # of the matrix, effectively rotating it 90 degrees
         result = Matrix.columns(rows) 
       end 
-    end
-
-    # Human are simple, they just split per space
-    def read_input_as_human(input)
-      input.map { _1.split(" ") }
-    end
-
-
-    # Humans read each row by turning numbers into integers
-    def read_row_as_human(row)
-      row.map(&:to_i)
     end
 
     # Cephalopods are crazy 'cause they read vertically
