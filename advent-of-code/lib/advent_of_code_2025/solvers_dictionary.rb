@@ -11,7 +11,8 @@ module AdventOfCode2025
       2 => ::Solvers::FalseIdsFinder,
       3 => ::Solvers::JolterComputer,
       4 => ::Solvers::ForkliftOptimizer,
-      5 => ::Solvers::SpoiledIngredientsIdentifier
+      5 => ::Solvers::SpoiledIngredientsIdentifier,
+      6 => ::Solvers::CephalopodMathSolver
     }.freeze
 
     MAX_DAYS = SOLVER_CLASSES.count
