@@ -22,7 +22,9 @@ module Solvers
       puts "parts2: #{solve_part2}" # is correct
     end
 
-    def solve_part1(result = 0); end
+    def solve_part1
+      operation_matrix.operate
+    end
 
     def solve_part2(result = 0); end
   end

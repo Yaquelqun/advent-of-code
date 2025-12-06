@@ -23,7 +23,6 @@ module Helpers
       @numbers_matrix ||= begin
         rows = input[..-2] # exclude last line since that's the operations
                .map { _1.map(&:to_i) } # turn em all into integers
-               .map(&:reverse) # to make sure we rotate in the right direction
         # Now that we have rows, we can feed them all as columns
         # of the matrix, effectively rotating it 90 degrees
         result = Matrix.columns(rows) 
