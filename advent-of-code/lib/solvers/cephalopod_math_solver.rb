@@ -27,7 +27,7 @@ module Solvers
 
     def solve_part2
       ::Helpers::OperationMatrix
-      .new(input: input, reader: Helpers::NumberReader::Cephalopod)
+      .new(input: input, reader: Helpers::NumberReaders::Cephalopod)
       .operate
     end
   end

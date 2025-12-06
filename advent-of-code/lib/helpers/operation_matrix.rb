@@ -31,40 +31,10 @@ module Helpers
     def numbers_matrix
       @numbers_matrix ||= begin
         rows = reader.read_input(input[..-2]) # exclude last line since that's the operations
-
         # Now that we have rows, we can feed them all as columns
         # of the matrix, effectively rotating it 90 degrees
         result = Matrix.columns(rows) 
       end 
-    end
-
-    # Cephalopods are crazy 'cause they read vertically
-    # therefore we need to pad the input to preserve
-    # the alignment of the numbers in the string.
-    # Thankfully, cephalopods also don't know about the number 0
-    # so we can use that to pad the number
-    def read_input_as_cephalopod(input)
-      
-    end
-
-    # Cephalopods read number vertically
-    # so we're gonna have to do our weird matrix rotation trick again
-    def read_row_as_cephalopod(row)
-      rows = row.map { _1.split('') } #isolate each number as strings
-      # Problem is that numbers are different sizes but matrix require columns to
-      # all have the same size
-      max_row_length = rows.map(&:size).max
-      rows = rows.map do |r|
-        padding_length = max_row_length - r.length
-        next r if padding_length.zero?
-        r = Array.new(padding_length, nil) + r
-      end
-
-      # now that the rows are padded, we can rotate them
-      rotation_matrix = Matrix.columns(rows)
-      
-      # Finally we need to turn each row into a number
-      rotation_matrix.to_a.map { _1.compact.join.to_i }
     end
   end
 end
