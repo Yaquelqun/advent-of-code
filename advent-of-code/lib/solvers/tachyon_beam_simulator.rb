@@ -21,7 +21,7 @@ module Solvers
     end
 
     def solve_part1
-      Helpers::TachyonGrid.new(grid)
+      Helpers::TachyonGrid.new(input_grid: grid)
                           .simulate
                           .split_count
     end

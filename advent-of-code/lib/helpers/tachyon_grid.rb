@@ -10,7 +10,22 @@ module Helpers
     end
 
     def simulate
+      display
       self
+    end
+
+    private
+
+    def display
+      rows.each(&:display)
+    end
+
+    def rows
+      @rows ||= begin
+        input_grid.map do |row|
+          Helpers::TachyonRow.new(input: row)
+        end
+      end
     end
   end
 end
