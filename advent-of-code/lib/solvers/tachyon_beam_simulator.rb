@@ -17,15 +17,22 @@ module Solvers
 
     def solve
       puts "parts1: #{solve_part1}" # 1560 is correct
-      puts "parts2: #{solve_part2}" # is correct
+      puts "parts2: #{solve_part2}" # 6195 is too low
     end
 
     def solve_part1
-      Helpers::TachyonGrid.new(input_grid: grid)
-                          .simulate
-                          .total_split_count
+      simulation.total_split_count
     end
 
-    def solve_part2(result = 0); end
+    def solve_part2
+      simulation.total_timelines
+    end
+
+    private
+
+    def simulation
+      @simulation ||= Helpers::TachyonGrid.new(input_grid: grid)
+      .simulate
+    end
   end
 end

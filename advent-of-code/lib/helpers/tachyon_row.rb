@@ -1,32 +1,30 @@
 module Helpers
   class TachyonRow
-    attr_reader :row, :split_count
+    attr_reader :row
 
     def initialize(input:)
       @row = input
       @split_count = 0
+      @new_beam_positions = []
     end
 
     def simulate(beam_positions)
-      new_beam_positions = []
       beam_positions.each do |index|
         # either the value at the index is a point or a splitter
         case row[index]
         when '.' # beam passes through
           row[index] = '|'
-          new_beam_positions |= [index]
+          @new_beam_positions |= [index]
         when '^' # beam splits
           @split_count += 1
-          new_beam_positions |= split_at_index(index)
-        else
-          # raise "wtf #{row[index]}"
+          @new_beam_positions |= split_at_index(index)
         end
       end
-      [new_beam_positions, @split_count]
+      [@new_beam_positions, @split_count, timelines_created]
     end
 
     def display
-      puts row.join(' ')
+      puts row.join(' ') + "    split_count = #{@split_count}, timelines_created: #{timelines_created}"
     end
 
     private
@@ -49,5 +47,6 @@ module Helpers
       @last_row_index ||= row.size - 1
     end
 
+    def timelines_created = @new_beam_positions.count
   end
 end

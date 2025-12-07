@@ -2,11 +2,12 @@
 
 module Helpers
   class TachyonGrid
-    attr_reader :rows, :total_split_count, :input_grid
+    attr_reader :rows, :total_split_count, :total_timelines, :input_grid
 
     def initialize(input_grid:)
       @input_grid = input_grid
       @total_split_count = 0
+      @total_timelines = 0
     end
 
     def simulate
@@ -15,8 +16,10 @@ module Helpers
       beam_positions = [first_input_index]
       rows.first.display
       rows[1..].each do |row|
-        beam_positions, split_count = row.simulate(beam_positions)
+        beam_positions, split_count, timelines_created = row.simulate(beam_positions)
         @total_split_count += split_count
+        @total_timelines += timelines_created if split_count > 0
+        sleep(0.05)
         row.display
       end
       self
