@@ -8,7 +8,7 @@ RSpec.describe Solvers::TachyonBeamSimulator do
     let(:input) { "day7_test" }
 
     it "returns the right result" do
-      expect(subject).to eql 'done1'
+      expect(subject).to eql "done1"
     end
   end
 
@@ -17,7 +17,7 @@ RSpec.describe Solvers::TachyonBeamSimulator do
     let(:input) { "day7_test" }
 
     it "returns the right result" do
-      expect(subject).to eql 'done2'
+      expect(subject).to eql "done2"
     end
   end
 end

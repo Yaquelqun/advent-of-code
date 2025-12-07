@@ -2,13 +2,17 @@
 
 module Solvers
   # Problem:
+  # One line goes down from the S char on line 1
+  # Once the line meets a ^, it splits it on both sides and it keeps
+  # going
   class TachyonBeamSimulator
-    attr_reader :placeholder
+    attr_reader :grid
 
     def initialize(input: "day7")
       # get each line and split them into single chars
-      @placeholder = Helpers::InputParser.new(input: input)
-                                         .parse_data
+      @grid = Helpers::InputParser.new(input: input)
+                                  .parse_data
+                                  .map { _1.split("") }
     end
 
     def solve
@@ -16,7 +20,11 @@ module Solvers
       puts "parts2: #{solve_part2}" # is correct
     end
 
-    def solve_part1(result = 0); end
+    def solve_part1
+      Helpers::TachyonGrid.new(grid)
+                          .simulate
+                          .split_count
+    end
 
     def solve_part2(result = 0); end
   end
