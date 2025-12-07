@@ -20,7 +20,7 @@ module Helpers
         @total_split_count += split_count
         @total_timelines += timelines_created if split_count > 0
         sleep(0.05)
-        row.display
+        row.display(@total_timelines)
       end
       self
     end

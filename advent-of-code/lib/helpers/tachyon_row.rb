@@ -23,8 +23,8 @@ module Helpers
       [@new_beam_positions, @split_count, timelines_created]
     end
 
-    def display
-      puts row.join(' ') + "    split_count = #{@split_count}, timelines_created: #{timelines_created}"
+    def display(total_timelines = 0)
+      puts row.join(' ') + "    split_count = #{@split_count}, total_timelines = #{total_timelines}, timelines_created: #{timelines_created}"
     end
 
     private
