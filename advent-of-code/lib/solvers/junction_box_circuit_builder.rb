@@ -18,7 +18,7 @@ module Solvers
     def solve
       puts "parts1: #{solve_part1}" # 66640 is correct
       @boxes.map(&:reset_circuit)
-      puts "parts2: #{solve_part2}" # 70058541 is too low
+      puts "parts2: #{solve_part2}" # 78894156 is correct
     end
 
     def solve_part1(connection_count: 1000)
