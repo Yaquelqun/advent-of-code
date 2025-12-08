@@ -17,16 +17,15 @@ module Solvers
 
     def solve
       puts "parts1: #{solve_part1}" # 66640 is correct
-      puts "parts2: #{solve_part2}" # is correct
+      puts "parts2: #{solve_part2}" # 70058541 is too low
     end
 
     def solve_part1(result: 0, connection_count: 1000)
       ordered_pairs = ::Helpers::JunctionBoxes::DistanceComputer.new(boxes, connection_count)
                                                                 .ordered_pairs
 
-      circuits = ::Helpers::JunctionBoxes::CircuitBuilder.new(ordered_pairs)
-                                                         .build_circuits
-      puts " circuit_size = #{circuits.values.map(&:size)}"
+      circuits = ::Helpers::JunctionBoxes::CircuitBuilder.new(ordered_pairs, boxes.count)
+                                                         .build_circuits(stop_condition: :end_of_input)
       circuits.values
               .map(&:size)
               .sort.reverse
@@ -35,6 +34,11 @@ module Solvers
     end
 
     def solve_part2(result = 0)
+      ordered_pairs = ::Helpers::JunctionBoxes::DistanceComputer.new(boxes, nil)
+                                                                .ordered_pairs
+      first_box, second_box = ::Helpers::JunctionBoxes::CircuitBuilder.new(ordered_pairs, boxes.count)
+                                                                      .build_circuits(stop_condition: :single_circuit)
+      first_box.x * second_box.x
     end
   end
 end

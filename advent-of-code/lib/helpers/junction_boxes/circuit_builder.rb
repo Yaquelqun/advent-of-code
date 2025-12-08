@@ -4,18 +4,20 @@ module Helpers
   module JunctionBoxes
     # Iterates over the pairs and put them in circuits
     class CircuitBuilder
-      attr_reader :circuits, :pairs, :circuit_index
+      attr_reader :circuits, :pairs, :circuit_index, :box_count
 
-      def initialize(pairs)
+      def initialize(pairs, box_count)
         @pairs = pairs
+        @box_count = box_count
         @circuits = Hash.new([])
         @circuit_index = 1
       end
 
-      def build_circuits
+      def build_circuits(stop_condition:)
         pairs.each do |first_box, second_box|
           connect(first_box, second_box)
           circuits.reject! { _2.empty? } # remove empty circuits due to merging
+          return [first_box, second_box] if stop_condition == :single_circuit && circuits.values.count == 1 && circuits.values.first.count == box_count
         end
         circuits
       end
