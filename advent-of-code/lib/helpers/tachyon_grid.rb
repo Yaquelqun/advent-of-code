@@ -11,7 +11,7 @@ module Helpers
 
     def simulate
       puts "start_simulation..."
-      beam_positions = Hash.new(0).merge({ first_input_index => 1})
+      beam_positions = Hash.new(0).merge({ first_input_index => 1 })
       rows.first.display
       rows[1..].each do |row|
         beam_positions, split_count = row.simulate(beam_positions)
@@ -26,19 +26,19 @@ module Helpers
     private
 
     def rows
-      @rows ||= begin
-        input_grid.map do |row|
-          Helpers::TachyonRow.new(input: row)
-        end
+      @rows ||= input_grid.map do |row|
+        Helpers::TachyonRow.new(input: row)
       end
     end
 
     def simulate_row(index = 0)
-      return if index = rows.count-1
+      return if (index = rows.count - 1)
+
       row[index].simulate(index, rows)
-      simulate_row(rows[index+1], index+1)
+      simulate_row(rows[index + 1], index + 1)
     end
 
-    def first_input_index = input_grid[0].index('S') # first input
+    # first input
+    def first_input_index = input_grid[0].index("S")
   end
 end

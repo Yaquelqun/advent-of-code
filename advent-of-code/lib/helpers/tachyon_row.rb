@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Helpers
   class TachyonRow
     attr_reader :row
@@ -12,10 +14,10 @@ module Helpers
       beam_positions.each do |index, timeline_amount|
         # either the value at the index is a point or a splitter
         case row[index]
-        when '.' # beam passes through
-          row[index] = '|'
+        when "." # beam passes through
+          row[index] = "|"
           @new_beam_positions[index] += timeline_amount
-        when '^' # beam splits
+        when "^" # beam splits
           @split_count += 1
           split_at_index(index, timeline_amount)
         else # straight beam into an split one
@@ -26,23 +28,23 @@ module Helpers
     end
 
     def display
-      puts row.join(' ') + "    split_count = #{@split_count}, total_timelines = #{@new_beam_positions.values.sum}"
+      puts row.join(" ") + "    split_count = #{@split_count}, total_timelines = #{@new_beam_positions.values.sum}"
     end
 
     private
-    
+
     def split_at_index(index, timeline_amount)
-      if index > 0
-        left_index = index - 1 
+      if index.positive?
+        left_index = index - 1
         @new_beam_positions[left_index] += timeline_amount
-        row[left_index] = '|'
+        row[left_index] = "|"
       end
 
-      if index < last_row_index
-        right_index = index + 1 
-        @new_beam_positions[right_index] += timeline_amount
-        row[right_index] = '|'
-      end
+      return unless index < last_row_index
+
+      right_index = index + 1
+      @new_beam_positions[right_index] += timeline_amount
+      row[right_index] = "|"
     end
 
     def last_row_index

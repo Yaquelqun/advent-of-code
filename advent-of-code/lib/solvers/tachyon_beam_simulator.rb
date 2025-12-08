@@ -32,7 +32,7 @@ module Solvers
 
     def simulation
       @simulation ||= Helpers::TachyonGrid.new(input_grid: grid)
-      .simulate
+                                          .simulate
     end
   end
 end

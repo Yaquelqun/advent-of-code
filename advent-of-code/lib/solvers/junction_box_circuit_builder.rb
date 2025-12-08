@@ -5,13 +5,14 @@ module Solvers
   # Find the 1000 pairs of closest points and link them
   # Once the pairs are linked, multiply the length of all created circuitss
   class JunctionBoxCircuitBuilder
-    attr_reader :boxes_positions
+    attr_reader :boxes
 
     def initialize(input: "day8")
       # get each line and split them into coordinates
-      @boxes_positions = Helpers::InputParser.new(input: input)
-                                         .parse_data
-                                         .map { _1.split(',')}
+      @boxes = Helpers::InputParser.new(input: input)
+                                   .parse_data
+                                   .map { _1.split(",") }
+                                   .map { Helpers::JunctionBox.new(*_1) }
     end
 
     def solve
@@ -20,11 +21,16 @@ module Solvers
     end
 
     def solve_part1(result: 0, connection_count: 1000)
-      ordered_pairs = ::Helpers::JunctionBoxes::DistanceComputer.new(boxes_position)
-                                                .ordered_pairs
-      circuits = ::Helpers::JunctionBoxes::CircuitBuilder.new(ordered_pairs, connection_count)
+      ordered_pairs = ::Helpers::JunctionBoxes::DistanceComputer.new(boxes, connection_count)
+                                                                .ordered_pairs
+
+      circuits = ::Helpers::JunctionBoxes::CircuitBuilder.new(ordered_pairs)
                                                          .build_circuits
-      cicuits.map(:size).reduce(:*)
+      circuits.values
+              .map(&:size)
+              .sort.reverse
+              .first(3)
+              .reduce(&:*)
     end
 
     def solve_part2(result = 0); end
