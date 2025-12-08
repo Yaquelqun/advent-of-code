@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Helpers
+  # Represents one row in the pachinko board
   class TachyonRow
     attr_reader :row
 

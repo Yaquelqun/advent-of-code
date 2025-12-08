@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 module Helpers
+  # Helper class to represent the entire board
   class TachyonGrid
-    attr_reader :rows, :total_split_count, :total_timelines, :input_grid
+    attr_reader :total_split_count, :total_timelines, :input_grid
 
     def initialize(input_grid:)
       @input_grid = input_grid

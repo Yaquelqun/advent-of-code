@@ -20,7 +20,7 @@ module Solvers
       puts "parts2: #{solve_part2}" # 70058541 is too low
     end
 
-    def solve_part1(result: 0, connection_count: 1000)
+    def solve_part1(connection_count: 1000)
       ordered_pairs = ::Helpers::JunctionBoxes::DistanceComputer.new(boxes, connection_count)
                                                                 .ordered_pairs
 
@@ -33,7 +33,7 @@ module Solvers
               .reduce(&:*)
     end
 
-    def solve_part2(result = 0)
+    def solve_part2
       ordered_pairs = ::Helpers::JunctionBoxes::DistanceComputer.new(boxes, nil)
                                                                 .ordered_pairs
       first_box, second_box = ::Helpers::JunctionBoxes::CircuitBuilder.new(ordered_pairs, boxes.count)

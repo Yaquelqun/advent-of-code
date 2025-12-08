@@ -63,7 +63,8 @@ module Solvers
         end
 
         extended_range = build_extended_range(conflicted_ranges)
-        # Now the only thing left to do is to remove the conflicted ranges (and us) from the array now that they have been resolved
+        # Now the only thing left to do is to remove the conflicted ranges (and us)
+        # from the array now that they have been resolved
         conflicted_ranges.each { unresolved_ranges.delete(_1) }
         # And add the extended range to the unresolved_ranges to be further refined
         unresolved_ranges << extended_range

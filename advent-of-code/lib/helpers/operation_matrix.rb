@@ -5,7 +5,7 @@ require "matrix"
 module Helpers
   # Helper class to contain both operations and numbers
   class OperationMatrix
-    attr_reader :input, :reader, :numbers_matrix, :operations
+    attr_reader :input, :reader, :operations
 
     def initialize(input:, reader:)
       @input = input

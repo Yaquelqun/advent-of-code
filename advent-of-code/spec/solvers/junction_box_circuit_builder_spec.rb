@@ -17,7 +17,7 @@ RSpec.describe Solvers::JunctionBoxCircuitBuilder do
     let(:input) { "day8_test" }
 
     it "returns the right result" do
-      expect(subject).to eql 25272
+      expect(subject).to eql 25_272
     end
   end
 end

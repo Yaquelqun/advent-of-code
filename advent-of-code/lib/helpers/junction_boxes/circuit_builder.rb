@@ -17,7 +17,10 @@ module Helpers
         pairs.each do |first_box, second_box|
           connect(first_box, second_box)
           circuits.reject! { _2.empty? } # remove empty circuits due to merging
-          return [first_box, second_box] if stop_condition == :single_circuit && circuits.values.count == 1 && circuits.values.first.count == box_count
+          if stop_condition == :single_circuit && circuits.values.count == 1 && circuits.values.first.count == box_count
+            return [first_box,
+                    second_box]
+          end
         end
         circuits
       end
