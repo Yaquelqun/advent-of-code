@@ -9,7 +9,7 @@ module Helpers
 
       attr_reader :boxes, :pair_count
 
-      def initialize(boxes, pair_count)
+      def initialize(boxes, pair_count = nil)
         @boxes = boxes
         @pair_count = pair_count
       end
@@ -19,9 +19,9 @@ module Helpers
         boxes.combination(2) do |first_box, second_box|
           result << PairWithDistance.new([first_box, second_box], first_box.distance_to(second_box))
         end
-        result.sort_by(&:distance)
-              .first(pair_count)
-              .map(&:pair)
+        result = result.sort_by(&:distance)
+        result = result.first(pair_count) if pair_count
+        result.map(&:pair)
       end
     end
   end

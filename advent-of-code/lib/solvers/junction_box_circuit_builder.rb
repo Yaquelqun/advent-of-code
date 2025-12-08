@@ -16,7 +16,7 @@ module Solvers
     end
 
     def solve
-      puts "parts1: #{solve_part1}" # is correct
+      puts "parts1: #{solve_part1}" # 66640 is correct
       puts "parts2: #{solve_part2}" # is correct
     end
 
@@ -26,6 +26,7 @@ module Solvers
 
       circuits = ::Helpers::JunctionBoxes::CircuitBuilder.new(ordered_pairs)
                                                          .build_circuits
+      puts " circuit_size = #{circuits.values.map(&:size)}"
       circuits.values
               .map(&:size)
               .sort.reverse
@@ -33,6 +34,7 @@ module Solvers
               .reduce(&:*)
     end
 
-    def solve_part2(result = 0); end
+    def solve_part2(result = 0)
+    end
   end
 end
