@@ -7,29 +7,23 @@ module Helpers
     def initialize(input_grid:)
       @input_grid = input_grid
       @total_split_count = 0
-      @total_timelines = 0
     end
 
     def simulate
-      display
       puts "start_simulation..."
-      beam_positions = [first_input_index]
+      beam_positions = Hash.new(0).merge({ first_input_index => 1})
       rows.first.display
       rows[1..].each do |row|
-        beam_positions, split_count, timelines_created = row.simulate(beam_positions)
+        beam_positions, split_count = row.simulate(beam_positions)
         @total_split_count += split_count
-        @total_timelines += timelines_created if split_count > 0
+        @total_timelines = beam_positions.values.sum
         sleep(0.05)
-        row.display(@total_timelines)
+        row.display
       end
       self
     end
 
     private
-
-    def display
-      rows.each(&:display)
-    end
 
     def rows
       @rows ||= begin
