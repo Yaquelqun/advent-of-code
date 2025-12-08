@@ -13,7 +13,8 @@ module AdventOfCode2025
       4 => ::Solvers::ForkliftOptimizer,
       5 => ::Solvers::SpoiledIngredientsIdentifier,
       6 => ::Solvers::CephalopodMathSolver,
-      7 => ::Solvers::TachyonBeamSimulator
+      7 => ::Solvers::TachyonBeamSimulator,
+      8 => ::Solvers::JunctionBoxCircuitBuilder
     }.freeze
 
     MAX_DAYS = SOLVER_CLASSES.count
