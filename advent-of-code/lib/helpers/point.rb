@@ -23,6 +23,13 @@ module Helpers
       Math.sqrt((other_box.x - x)**2 + (other_box.y - y)**2 + (other_box.z - z)**2)
     end
 
+    def is_in_shape?(shape_corners)
+      shape_corners.any? { _1.x <= x  && _1.y <= y } &&
+      shape_corners.any? { _1.x <= x  && _1.y >= y } &&
+      shape_corners.any? { _1.x >= x  && _1.y <= y } &&
+      shape_corners.any? { _1.x >= x  && _1.y >= y } 
+    end
+
     def reset_circuit
       @circuit = nil
     end

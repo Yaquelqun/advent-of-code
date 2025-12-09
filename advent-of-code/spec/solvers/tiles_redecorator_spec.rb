@@ -17,7 +17,7 @@ RSpec.describe Solvers::TilesRedecorator do
     let(:input) { "day9_test" }
 
     it "returns the right result" do
-      expect(subject).to eql 'done 2'
+      expect(subject).to eql 24
     end
   end
 end
