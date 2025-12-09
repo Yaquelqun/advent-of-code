@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Helpers
-  module JunctionBoxes
+  module Points
     # Class that takes in a list of coordinates and
     # computes the distance between them all before returning an ordered list of pairs
     class DistanceComputer
