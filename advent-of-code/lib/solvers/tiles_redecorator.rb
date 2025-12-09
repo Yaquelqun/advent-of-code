@@ -2,20 +2,28 @@ module Solvers
   # Problem: Given a list of 2 dimension coordinates, find the
   # 2 points that form the largest rectangle
   class TilesRedecorator
-    attr_reader :placeholder
+    attr_reader :tiles
 
-    def initialize(input: "day4")
-      # get each line and split them into single chars
-      @placeholder = Helpers::InputParser.new(input: input)
+    def initialize(input: "day9")
+      @tiles = Helpers::InputParser.new(input: input)
                                          .parse_data
+                                         .map { _1.split(",") }
+                                         .map { Helpers::Point.new(*_1) }
     end
 
     def solve
-      puts "parts1: #{solve_part1}" # is correct
+      puts "parts1: #{solve_part1}" # 4735136763 is too low
       puts "parts2: #{solve_part2}" # is correct
     end
 
-    def solve_part1(result = 0); end
+    def solve_part1
+      # Good thing is that i can reuse what i did yesterday, the largest
+      # rectangle is caused by the 2 points furthest apart.
+      pairs = Helpers::Points::DistanceComputer.new(tiles)
+                                               .ordered_pairs
+      point_a, point_b = pairs.last
+      ((point_a.y - point_b.y).abs + 1) * ((point_a.x - point_b.x).abs + 1)
+    end
 
     def solve_part2(result = 0); end
   end
