@@ -24,10 +24,30 @@ module Helpers
     end
 
     def is_in_shape?(shape_corners)
-      shape_corners.any? { _1.x <= x  && _1.y <= y } &&
-      shape_corners.any? { _1.x <= x  && _1.y >= y } &&
-      shape_corners.any? { _1.x >= x  && _1.y <= y } &&
-      shape_corners.any? { _1.x >= x  && _1.y >= y } 
+      puts "is corner #{coordinates} in the shape ?"
+      bottom_right = shape_corners.detect { _1.x >= x  && _1.y >= y }
+      unless bottom_right
+        puts "no bottom_right"
+        return false 
+      end
+      top_right = shape_corners.detect { _1.x >= x && _1.y <= y }
+      unless top_right
+        puts "no top_right"
+        return false 
+      end
+      bottom_left = shape_corners.detect { _1.x <= x  && _1.y >= y }
+      unless bottom_left
+        puts "no bottom_left"
+        return false 
+      end
+      top_left = shape_corners.detect { _1.x <= x  && _1.y <= y }
+      unless top_left
+        puts "no top_left"
+        return false 
+      end
+
+      puts "all four corners found \n bottom_right: #{bottom_right.coordinates}, top_right: #{top_right.coordinates}, bottom_left: #{bottom_left.coordinates}, top_left: #{top_left.coordinates}"
+      true
     end
 
     def reset_circuit

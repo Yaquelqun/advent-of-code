@@ -26,11 +26,13 @@ module Solvers
     # postulate that a point is in the form if there are coordinates on the right, left, up and down of the point i'm looking at 
     def solve_part2
       pairs.reverse.each do |pair_with_area|
+        puts "################################################################"
         corner1, corner2 = pair_with_area.pair # The 2 points
+        puts "considering rectangle caused by #{corner1.coordinates} and #{corner2.coordinates}"
         area = pair_with_area.area
 
         corner3 = Helpers::Point.new(corner1.x, corner2.y)
-        corner4 = Helpers::Point.new(corner1.y, corner2.x)
+        corner4 = Helpers::Point.new(corner2.x, corner1.y)
         if corner3.is_in_shape?(tiles) && corner4.is_in_shape?(tiles)
           byebug
           return area 
