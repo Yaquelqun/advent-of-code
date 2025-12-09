@@ -12,7 +12,7 @@ module Solvers
     end
 
     def solve
-      puts "parts1: #{solve_part1}" # 4735136763 is too low
+      puts "parts1: #{solve_part1}" # 4765757080 is correct
       puts "parts2: #{solve_part2}" # is correct
     end
 
@@ -21,8 +21,7 @@ module Solvers
       # rectangle is caused by the 2 points furthest apart.
       pairs = Helpers::Points::DistanceComputer.new(tiles, pairing_method: :area)
                                                .ordered_pairs
-byebug
-fail!
+      pairs.last.area
     end
 
     def solve_part2(result = 0); end

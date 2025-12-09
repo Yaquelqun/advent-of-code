@@ -24,17 +24,16 @@ module Helpers
         @result = @result.first(pair_count) if pair_count
         @result
       end
-    end
 
-    private
-
-    def enrich_with_distance(first_point, second_point)
-      @result << PairWithData.new(pair: [first_point, second_point], distance: first_point.distance_to(second_point))
-    end
-
-    def enrich_with_area(first_point, second_point)
-      area = ((first_point.y - second_point.y).abs + 1) * ((first_point.x - second_point.x).abs + 1)
-      @result << PairWithData.new(pair: [first_point, second_point], area: area)
+      private
+      def enrich_with_distance(first_point, second_point)
+        @result << PairWithData.new(pair: [first_point, second_point], distance: first_point.distance_to(second_point))
+      end
+  
+      def enrich_with_area(first_point, second_point)
+        area = ((first_point.y - second_point.y).abs + 1) * ((first_point.x - second_point.x).abs + 1)
+        @result << PairWithData.new(pair: [first_point, second_point], area: area)
+      end
     end
   end
 end
