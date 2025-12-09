@@ -7,7 +7,7 @@ module Helpers
     attr_accessor :circuit
 
     # rubocop:disable Naming/MethodParameterName
-    def initialize(x, y, z)
+    def initialize(x = 0, y = 0 , z = 0)
       @x = x.to_i
       @y = y.to_i
       @z = z.to_i
