@@ -4,6 +4,7 @@ module Solvers
   # Problem: Given a list of 3 dimension coordinates:
   # Find the 1000 pairs of closest points and link them
   # Once the pairs are linked, multiply the length of all created circuitss
+  # Part 2 is about finding the first pair that allows all boxes to be in the same circuit
   class JunctionBoxCircuitBuilder
     attr_reader :boxes
 
