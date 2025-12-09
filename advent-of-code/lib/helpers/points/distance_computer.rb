@@ -31,7 +31,7 @@ module Helpers
       end
   
       def enrich_with_area(first_point, second_point)
-        area = ((first_point.y - second_point.y).abs + 1) * ((first_point.x - second_point.x).abs + 1)
+        area = ((first_point.y - second_point.y + 1).abs) * ((first_point.x - second_point.x + 1).abs)
         @result << PairWithData.new(pair: [first_point, second_point], area: area)
       end
     end

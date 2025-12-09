@@ -13,7 +13,7 @@ module Solvers
 
     def solve
       puts "parts1: #{solve_part1}" # 4765757080 is correct
-      puts "parts2: #{solve_part2}" # is correct
+      puts "parts2: #{solve_part2}" # 4624208190 is too high
     end
 
     def solve_part1
@@ -30,12 +30,12 @@ module Solvers
         corner1, corner2 = pair_with_area.pair # The 2 points
         puts "considering rectangle caused by #{corner1.coordinates} and #{corner2.coordinates}"
         area = pair_with_area.area
+        puts "area is #{area}"
 
         corner3 = Helpers::Point.new(corner1.x, corner2.y)
         corner4 = Helpers::Point.new(corner2.x, corner1.y)
         if corner3.is_in_shape?(tiles) && corner4.is_in_shape?(tiles)
-          byebug
-          return area 
+          return area
         end
       end
     end
