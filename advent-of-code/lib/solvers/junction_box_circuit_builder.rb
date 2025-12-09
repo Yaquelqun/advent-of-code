@@ -12,7 +12,7 @@ module Solvers
       @boxes = Helpers::InputParser.new(input: input)
                                    .parse_data
                                    .map { _1.split(",") }
-                                   .map { Helpers::JunctionBox.new(*_1) }
+                                   .map { Helpers::Point.new(*_1) }
     end
 
     def solve

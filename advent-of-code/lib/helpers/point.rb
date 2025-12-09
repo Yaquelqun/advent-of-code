@@ -2,7 +2,7 @@
 
 module Helpers
   # Simple Junction box model
-  class JunctionBox
+  class Point
     attr_reader :x, :y, :z
     attr_accessor :circuit
 
