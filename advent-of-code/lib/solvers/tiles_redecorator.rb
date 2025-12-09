@@ -23,7 +23,8 @@ module Solvers
     # Idea is to go throug each pair and find the first one where all four corners are in the 
     # shape formed by linking all coordinates. Given that all adjacents coordinates are either
     # on the same column or line (i.e the form does not have diagonals), i'm going to 
-    # postulate that a point is in the form if there are coordinates on the right, left, up and down of the point i'm looking at 
+    # postulate that a point is in the polygon if i can find 4 points loosely boxing in the one 
+    # i'm looking at
     def solve_part2
       pairs.reverse.each do |pair_with_area|
         puts "################################################################"
