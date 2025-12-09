@@ -25,6 +25,7 @@ module Solvers
     def solve_part1(connection_count: 1000)
       ordered_pairs = ::Helpers::Points::DistanceComputer.new(boxes, connection_count)
                                                                 .ordered_pairs
+                                                                .map(&:pair)
 
       circuits = ::Helpers::JunctionBoxes::CircuitBuilder.new(ordered_pairs, boxes.count)
                                                          .build_circuits(stop_condition: :end_of_input)
@@ -37,7 +38,9 @@ module Solvers
 
     def solve_part2
       ordered_pairs = ::Helpers::Points::DistanceComputer.new(boxes, nil)
-                                                                .ordered_pairs
+                                                         .ordered_pairs
+                                                         .map(&:pair)
+
       first_box, second_box = ::Helpers::JunctionBoxes::CircuitBuilder.new(ordered_pairs, boxes.count)
                                                                       .build_circuits(stop_condition: :single_circuit)
       first_box.x * second_box.x

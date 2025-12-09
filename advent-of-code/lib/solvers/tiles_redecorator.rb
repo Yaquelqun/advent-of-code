@@ -19,10 +19,10 @@ module Solvers
     def solve_part1
       # Good thing is that i can reuse what i did yesterday, the largest
       # rectangle is caused by the 2 points furthest apart.
-      pairs = Helpers::Points::DistanceComputer.new(tiles)
+      pairs = Helpers::Points::DistanceComputer.new(tiles, pairing_method: :area)
                                                .ordered_pairs
-      point_a, point_b = pairs.last
-      ((point_a.y - point_b.y).abs + 1) * ((point_a.x - point_b.x).abs + 1)
+byebug
+fail!
     end
 
     def solve_part2(result = 0); end
