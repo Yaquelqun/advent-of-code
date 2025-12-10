@@ -12,19 +12,14 @@ module Helpers
     # Just tryna bruteforce my way for now
     def solve_for_shortest
       ideal_button = final_state.map.with_index { _2 if _1 == true }.compact # Button i'm looking for
-      solutions = new_solutions(ideal_button)
-      loop do
-        # byebug if [0, 1].include? solutions.count
-        puts "iterating over #{solutions.flatten.count} solutions"
-        current_solutions = solutions.flatten
-        solutions = []
-        current_solutions.each do |solution|
-          if buttons.include?(solution[:ideal_button]) || solution[:ideal_button] == []
-            solution[:buttons_pressed] << solution[:ideal_button] if solution[:ideal_button].any?
-            puts "solution found for #{final_state.inspect}: #{solution.inspect}"
-            return solution[:buttons_pressed].count
-          else
-            solutions += new_solutions(solution[:ideal_button], solution)
+      (1..buttons.count).each do |combination_size|
+        puts "testing all #{combination_size} combinations"
+        buttons.combination(combination_size).each do |button_combination|
+          # byebug if combination_size == 2
+          resolving_button = button_combination.flatten.tally.to_a.select {_2.odd?}.map(&:first)
+          if resolving_button.sort == ideal_button.sort
+            puts "resolved in #{combination_size} buttons: #{button_combination.inspect}"
+            return combination_size
           end
         end
       end
