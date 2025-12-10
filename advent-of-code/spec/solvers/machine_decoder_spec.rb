@@ -17,7 +17,7 @@ RSpec.describe Solvers::MachineDecoder do
     let(:input) { "day10_test" }
 
     it "returns the right result" do
-      expect(subject).to eql "done2"
+      expect(subject).to eql 33
     end
   end
 end

@@ -21,9 +21,11 @@ module Solvers
     end
 
     def solve_part1
-      machines.map(&:solve_for_shortest).sum
+      machines.map(&:solve_for_state).sum
     end
 
-    def solve_part2; end
+    def solve_part2
+      machines.map(&:solve_for_joltage).sum
+    end
   end
 end
