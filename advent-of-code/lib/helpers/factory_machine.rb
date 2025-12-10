@@ -1,36 +1,63 @@
+# frozen_string_literal: true
+
 module Helpers
   # helper class to keep the factory machine logic in one place
   class FactoryMachine
     attr_reader :final_state, :buttons, :whatever
+
     def initialize(string_input)
       initialize_parts(string_input)
     end
 
     # Just tryna bruteforce my way for now
     def solve_for_shortest
-      (1..buttons.size).each do |combination_size|
-        buttons.combination(combination_size) do |combination|
-          current_state = Array.new(final_state.size) { false }
-          combination.flatten.uniq.each do |position| # already 3 each deep, god help us all
-            current_state[position]  = !current_state[position]
+      ideal_button = final_state.map.with_index { _2 if _1 == true }.compact # Button i'm looking for
+      solutions = new_solutions(ideal_button)
+      loop do
+        current_solutions = solutions.flatten
+        solutions = []
+        current_solutions.each do |solution|
+          if buttons.include? solution[:ideal_button]
+            solution[:buttons_pressed] << solution[:ideal_button]
+            puts "solution found for #{final_state.inspect}: #{solution.inspect}"
+            return solution[:buttons_pressed].count
+          else
+            solutions += new_solutions(solution[:ideal_button], solution)
           end
-          return combination_size if current_state == final_state
         end
       end
     end
 
     private
 
+    # generate solutions from ideal button
+    def new_solutions(ideal_button, previous_solution = {})
+      possible_buttons = buttons.select { (_1 & ideal_button).any? }
+      possible_buttons.map do |button|
+        solution = {
+          state: (previous_solution[:state] || Array.new(final_state.size) { false })
+                   .map.with_index { button.include?(_2) ? !_1 : _1 }, # apply button
+          buttons_pressed: (previous_solution[:buttons_pressed] || []) + [button]
+        }
+        solution[:ideal_button] = compute_ideal_button(solution[:state])
+        solution
+      end
+    end
+
+    # The ideal button contain the indices of all positions where ethe state and ideal_state are different
+    def compute_ideal_button(state)
+      state.zip(final_state).map.with_index { _2 if _1.uniq.count == 2 }.compact
+    end
+
     def initialize_parts(raw_input)
       # split the input into 3 parts
       raw_final_state, raw_buttons, raw_whatever = /(\[.*\]) (.*) ({.*})/.match(raw_input).to_a[1..]
       # treat first part: [..#..#..#...] to turn it into [false, false true ....]
-      @final_state = raw_final_state[1..-2].split('').map { {'.' => false, '#' => true}[_1] }
+      @final_state = raw_final_state[1..-2].split("").map { { "." => false, "#" => true }[_1] }
       # treat second part: (1) (2,3) (5,3,4) to turn it into [[1], [2, 3], [5, 3, 4]]
-      @buttons = raw_buttons.split.map { _1[1..-2].split(',').map(&:to_i)}
-      # treat last part. 
-      @whatever = raw_whatever[1..-2].split(',').map(&:to_i)
+      @buttons = raw_buttons.split.map { _1[1..-2].split(",").map(&:to_i).sort }
+      # treat last part.
+      @whatever = raw_whatever[1..-2].split(",").map(&:to_i)
     end
-
   end
 end

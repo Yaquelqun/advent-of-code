@@ -26,12 +26,13 @@ module Helpers
       end
 
       private
+
       def enrich_with_distance(first_point, second_point)
         @result << PairWithData.new(pair: [first_point, second_point], distance: first_point.distance_to(second_point))
       end
-  
+
       def enrich_with_area(first_point, second_point)
-        area = ((first_point.y - second_point.y + 1).abs) * ((first_point.x - second_point.x + 1).abs)
+        area = (first_point.y - second_point.y + 1).abs * (first_point.x - second_point.x + 1).abs
         @result << PairWithData.new(pair: [first_point, second_point], area: area)
       end
     end

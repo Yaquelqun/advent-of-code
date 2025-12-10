@@ -2,7 +2,7 @@
 
 module Solvers
   # Problem:
-  # - Part 1: Given a final arrray containing trues and falses + a list of actions toggling 
+  # - Part 1: Given a final arrray containing trues and falses + a list of actions toggling
   # array positions, find the smallest combination of buttons to press to get to the final array
   # from an all false array
   class MachineDecoder
@@ -11,8 +11,8 @@ module Solvers
     def initialize(input: "day10")
       # get each line and split them into single chars
       @machines = Helpers::InputParser.new(input: input)
-                                         .parse_data
-                                         .map { Helpers::FactoryMachine.new(_1) }
+                                      .parse_data
+                                      .map { Helpers::FactoryMachine.new(_1) }
     end
 
     def solve

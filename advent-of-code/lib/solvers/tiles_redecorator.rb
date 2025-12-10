@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Solvers
   # Problem: Given a list of 2 dimension coordinates, find the
   # 2 points that form the largest rectangle
@@ -6,9 +8,9 @@ module Solvers
 
     def initialize(input: "day9")
       @tiles = Helpers::InputParser.new(input: input)
-                                         .parse_data
-                                         .map { _1.split(",") }
-                                         .map { Helpers::Point.new(*_1) }
+                                   .parse_data
+                                   .map { _1.split(",") }
+                                   .map { Helpers::Point.new(*_1) }
     end
 
     def solve
@@ -20,10 +22,10 @@ module Solvers
       pairs.last.area
     end
 
-    # Idea is to go throug each pair and find the first one where all four corners are in the 
+    # Idea is to go throug each pair and find the first one where all four corners are in the
     # shape formed by linking all coordinates. Given that all adjacents coordinates are either
-    # on the same column or line (i.e the form does not have diagonals), i'm going to 
-    # postulate that a point is in the polygon if i can find 4 points loosely boxing in the one 
+    # on the same column or line (i.e the form does not have diagonals), i'm going to
+    # postulate that a point is in the polygon if i can find 4 points loosely boxing in the one
     # i'm looking at
     # :point-up: that was a false assumption because i could get a snake or a rope like figure
     # So not sure how to solve it smartly ^^"
@@ -37,9 +39,7 @@ module Solvers
 
         corner3 = Helpers::Point.new(corner1.x, corner2.y)
         corner4 = Helpers::Point.new(corner2.x, corner1.y)
-        if corner3.is_in_shape?(tiles) && corner4.is_in_shape?(tiles)
-          return area
-        end
+        return area if corner3.is_in_shape?(tiles) && corner4.is_in_shape?(tiles)
       end
     end
 
@@ -47,7 +47,7 @@ module Solvers
       # Good thing is that i can reuse what i did yesterday, the largest
       # rectangle is caused by the 2 points furthest apart.
       @pairs ||= Helpers::Points::DistanceComputer.new(tiles, pairing_method: :area)
-                                               .ordered_pairs
+                                                  .ordered_pairs
     end
   end
 end

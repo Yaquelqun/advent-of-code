@@ -7,7 +7,7 @@ module Helpers
     attr_accessor :circuit
 
     # rubocop:disable Naming/MethodParameterName
-    def initialize(x = 0, y = 0 , z = 0)
+    def initialize(x = 0, y = 0, z = 0)
       @x = x.to_i
       @y = y.to_i
       @z = z.to_i
@@ -36,7 +36,6 @@ module Helpers
 
       top_left = shape_corners.detect { _1.x <= x && _1.y <= y }
       return false unless top_left
-
 
       puts "all four corners found \n bottom_right: #{bottom_right.coordinates}, top_right: #{top_right.coordinates}, bottom_left: #{bottom_left.coordinates}, top_left: #{top_left.coordinates}"
       true
