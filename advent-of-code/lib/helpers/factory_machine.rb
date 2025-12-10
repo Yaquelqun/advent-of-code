@@ -14,11 +14,13 @@ module Helpers
       ideal_button = final_state.map.with_index { _2 if _1 == true }.compact # Button i'm looking for
       solutions = new_solutions(ideal_button)
       loop do
+        # byebug if [0, 1].include? solutions.count
+        puts "iterating over #{solutions.flatten.count} solutions"
         current_solutions = solutions.flatten
         solutions = []
         current_solutions.each do |solution|
-          if buttons.include? solution[:ideal_button]
-            solution[:buttons_pressed] << solution[:ideal_button]
+          if buttons.include?(solution[:ideal_button]) || solution[:ideal_button] == []
+            solution[:buttons_pressed] << solution[:ideal_button] if solution[:ideal_button].any?
             puts "solution found for #{final_state.inspect}: #{solution.inspect}"
             return solution[:buttons_pressed].count
           else
@@ -32,7 +34,7 @@ module Helpers
 
     # generate solutions from ideal button
     def new_solutions(ideal_button, previous_solution = {})
-      possible_buttons = buttons.select { (_1 & ideal_button).any? }
+      possible_buttons = (buttons - (previous_solution[:buttons_pressed] || [])).select { (_1 & ideal_button).any? }
       possible_buttons.map do |button|
         solution = {
           state: (previous_solution[:state] || Array.new(final_state.size) { false })

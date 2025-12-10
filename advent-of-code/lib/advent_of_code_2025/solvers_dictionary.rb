@@ -15,7 +15,8 @@ module AdventOfCode2025
       6 => ::Solvers::CephalopodMathSolver,
       7 => ::Solvers::TachyonBeamSimulator,
       8 => ::Solvers::JunctionBoxCircuitBuilder,
-      9 => ::Solvers::TilesRedecorator
+      9 => ::Solvers::TilesRedecorator,
+      10 => ::Solvers::MachineDecoder
     }.freeze
 
     MAX_DAYS = SOLVER_CLASSES.count
