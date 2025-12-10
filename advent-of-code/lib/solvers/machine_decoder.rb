@@ -16,7 +16,7 @@ module Solvers
     end
 
     def solve
-      puts "parts1: #{solve_part1}" # is correct
+      puts "parts1: #{solve_part1}" # 409 is correct
       puts "parts2: #{solve_part2}" # is correct
     end
 
