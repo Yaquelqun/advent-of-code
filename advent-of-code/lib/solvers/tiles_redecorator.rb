@@ -25,6 +25,8 @@ module Solvers
     # on the same column or line (i.e the form does not have diagonals), i'm going to 
     # postulate that a point is in the polygon if i can find 4 points loosely boxing in the one 
     # i'm looking at
+    # :point-up: that was a false assumption because i could get a snake or a rope like figure
+    # So not sure how to solve it smartly ^^"
     def solve_part2
       pairs.reverse.each do |pair_with_area|
         puts "################################################################"
