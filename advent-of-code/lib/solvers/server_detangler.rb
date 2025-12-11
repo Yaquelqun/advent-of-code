@@ -20,39 +20,48 @@ module Solvers
     end
 
     def solve_part1
+      @state = {}
       number_of_paths('you', 'out') 
     end
 
     # svr => fft => dac => out
     def solve_part2
+      @state = {}
       puts "since fft comes before dac"
       puts "the final sum is"
-      svr_fft = number_of_paths('svr', 'dac')
+      svr_fft = number_of_paths('svr', 'fft')
       puts "#{svr_fft} paths from svr to fft * "
-      fft_dac = number_of_paths('dac', 'fft')
-      puts "#{fft_dac} paths from svr to fft * "
-      dac_out = number_of_paths('fft', 'out') 
-      puts "#{dac_out} paths from svr to fft  = "
+      @state = {}
+      fft_dac = number_of_paths('fft', 'dac')
+      puts "#{fft_dac} paths from fft to dac * "
+      @state = {}
+      dac_out = number_of_paths('dac', 'out') 
+      puts "#{dac_out} paths from dac to out  = "
       svr_fft * fft_dac * dac_out
     end
  
     private
 
     def number_of_paths(link_name, exit_name)
+      return @state[link_name] unless @state[link_name].nil?
+
       link = links.detect { |name, _| name == link_name }
       return 0 unless link
 
-      if link.last.include? exit_name
-        return 1
+      result = if link.last.include? exit_name
+        1
+      else
+        link.last.reduce(0) do |acc, child_name| 
+          acc + number_of_paths(child_name, exit_name)
+        end
       end
-      link.last.reduce(0) do |acc, child_name| 
-        acc + number_of_paths(child_name, exit_name)
-      end
+      @state[link_name] = result
+      result
     end
 
+    # Unused method, was just testing things
     def find_all_parents(link_name)
       more_parents = links.select { _2.include? link_name }
-      # byebug
       parents = more_parents
       loop do
         puts "looking at #{more_parents.count} links"
