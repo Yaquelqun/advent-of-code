@@ -16,7 +16,8 @@ module AdventOfCode2025
       7 => ::Solvers::TachyonBeamSimulator,
       8 => ::Solvers::JunctionBoxCircuitBuilder,
       9 => ::Solvers::TilesRedecorator,
-      10 => ::Solvers::MachineDecoder
+      10 => ::Solvers::MachineDecoder,
+      11 => ::Solvers::ServerDetangler
     }.freeze
 
     MAX_DAYS = SOLVER_CLASSES.count
