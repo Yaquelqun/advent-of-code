@@ -14,10 +14,10 @@ RSpec.describe Solvers::ServerDetangler do
 
   describe "#solve_part2" do
     subject { described_class.new(input:).solve_part2 }
-    let(:input) { "day11_test" }
+    let(:input) { "day11_test2" }
 
     it "returns the right result" do
-      expect(subject).to eql 'done2'
+      expect(subject).to eql 2
     end
   end
 end

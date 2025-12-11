@@ -19,19 +19,30 @@ module Solvers
       puts "parts2: #{solve_part2}" # is correct
     end
 
-    def solve_part1(result = 0)
-      # @paths_state = {}
-      number_of_paths_from('you') 
+    def solve_part1
+      @path_checks = []
+      number_of_paths_from('you', []) 
     end
 
-    def solve_part2(result = 0); end
+    def solve_part2
+      @path_checks = ['fft', 'dac']
+      number_of_paths_from('svr', [])
+    end
 
     private
 
-    def number_of_paths_from(link_name)
+    def number_of_paths_from(link_name, path)
       link = links.detect { |name, children| name == link_name }
-      return 1 if link.last.include? "out"
-      link.last.map { number_of_paths_from(_1) }.sum
+      return 0 unless link
+
+      if link.last.include? "out"
+        puts "found one path: #{path}"
+        return 1 if path & @path_checks == @path_checks
+        return 0
+      end
+      link.last.map do 
+        number_of_paths_from(_1, path + [link.first])
+      end.sum
     end
   end
 end
